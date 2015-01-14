@@ -1,7 +1,5 @@
 import numpy as np
 
-from PIL import Image
-
 
 def load_image(filename, w, h):
     """
@@ -97,19 +95,6 @@ def cost(im, gamma, eps_v, eps_h):
     return len(J), J_record
 
 
-def color_set(im, J):
-    out = im.copy()
-    for p in J:
-        out[p[0], p[1]] = np.nan
-    return out
-
-def color_sets(im, J_record):
-    out = im.copy()
-    for J in J_record:
-        out = color_set(out, J)
-    return out
-
-
 def prepare_gamma(A, B, N):
     """
     Returns a straight path.
@@ -132,15 +117,8 @@ def prepare_gamma(A, B, N):
 def main(N=12):
     """
     """
-    depth_map = load_image('morne_rouge.asc', 101, 101)
     gamma = prepare_gamma(np.array([50, 20]), np.array([50, 80]), N)
     c, J_record = cost(depth_map, gamma, 1, 0.25)
-
-    # sequence of images showing the evolution of the J sets
-    for i in range(N):
-        im = color_set(depth_map, J_record[i])
-        im = Image.fromarray(im)
-        im.save('im%02d.tif' % i)
 
 
 if __name__ == '__main__':
