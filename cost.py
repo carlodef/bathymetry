@@ -1,6 +1,6 @@
 import numpy as np
 
-import piio
+from PIL import Image
 
 
 def load_image(filename, w, h):
@@ -139,7 +139,8 @@ def main(N=12):
     # sequence of images showing the evolution of the J sets
     for i in range(N):
         im = color_set(depth_map, J_record[i])
-        piio.write('im%02d.tif' % i, im)
+        im = Image.fromarray(im)
+        im.save('im%02d.tif' % i)
 
 
 if __name__ == '__main__':
