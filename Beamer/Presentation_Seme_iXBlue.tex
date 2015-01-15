@@ -91,14 +91,110 @@
   \end{center}  
 }
 
-\frame{
-  \frametitle{Choix du chemin}
-  \begin{itemize}
-  \item Comment aller de $A$ en $B$ de façon précise ?
-  \item La ligne droite n'est pas forcément la meilleure
-    stratégie. DESSIN ICI
-  \end{itemize}
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Présentation du problème}
+
+
+\textcolor{red}{Robot réel} : 
+\begin{itemize}
+	\item connait parfaitement $A$, et la carte de fond.
+	\item Il a $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
+	\item \textcolor{red}{But : estimer où est $B$ !}
+\end{itemize}
+
+\vspace{-1.5em}
+
+\begin{figure}[!h]
+\begin{center}
+	\begin{tikzpicture}[scale =1]
+
+	%% Boite trajectoire
+	\draw (0,0) rectangle (7, 6);
+	
+	% A et B
+	\node at (1, 3.8) {$A$};
+	%\node at (6, 2.8) {$B$};
+	
+		
+	%\draw[line width=1.5]  (1, 3.5) -- (4, 1.5) -- (6, 2.5);
+	\only<1> \shade[ball color=red] (1,3.5) circle (.15);
+	
+	\only <2> {
+		\filldraw[fill = blue!20, draw = blue] (2.5, 2.5) circle (0.5);
+		\draw[line width=1]  (1, 3.5) -- (2.5, 2.5);
+		\node[blue] at (2.5, 3.2) {?};
+	}
+	\only <3> {
+		\filldraw[fill = blue!20, draw = blue] (4, 1.5) circle (0.1);
+		\draw[line width=1]  (1, 3.5) -- (4, 1.5);
+	}
+	\only <4> {
+		\filldraw[fill = blue!20, draw = blue] (6, 2.8) circle (0.3);
+		\draw[line width=1]  (1, 3.5) -- (4, 1.5) -- (6, 2.8);
+		\node[blue] at (6, 3.3) {B ?};
+	}
+	
+	% Obstacle
+	\foreach \r in {0.1, 0.2, 0.3, 0.5, 0.8}
+	{
+		\draw (4, 1.5) circle (\r);
+	}
+
+	%% Boite vx
+	\draw[->] (8, 4) -> (11, 4); 	\draw[->] (8, 4) -> (8, 5.8);	
+	\node at (8.3, 5.5) {$v_x$}; \node at (11.2, 4) {$t$};
+	
+	\fill[fill=red!20] (8, 4.9) rectangle (10,5.1);
+	\draw[red, line width=1] (8, 5) -- (10, 5);
+	\fill[fill=red!20](10, 5.3) rectangle (11,5.5);
+	\draw[red, line width=1] (10,5.4) -- (11, 5.4);
+	
+	%% Boite vy
+	\draw[->] (8, 2) -> (11, 2); 	\draw[->] (8, 2) -> (8, 3.8);
+	\node at (8.3, 3.5) {$v_y$}; \node at (11.2, 2) {$t$};
+	
+	\fill[fill=red!20] (8, 2.4) rectangle (10,2.6);
+	\draw[red, line width=1] (8, 2.5) -- (10, 2.5); 
+	\fill[fill=red!20] (10, 3.3) rectangle (11,3.5);
+	\draw[red, line width=1] (10,3.4) -- (11, 3.4);
+	
+	%% Boite h
+	\draw[->] (8, 0) -> (11, 0); 	\draw[->] (8, 0) -> (8, 1.8);
+	\node at (8.3, 1.5) {$h$}; \node at (11.2, 0) {$t$};
+	
+	\draw[red!20, line width=6] (8, 0.2) -- (9.4, 0.2);
+	\draw[red!20, line width=6]  (9.4,0.2) .. controls (9.7,0.2) and (9.8,1.5) .. (10,1.5);
+	\draw[red!20, line width=6]  (10,1.5) .. controls (10.2,1.5) and (10.3,0.2) .. (10.6,0.2);
+	\draw[red!20, line width=6] (10.6, 0.2) -- (11, 0.2);
+	
+	\draw[red, line width=1] (8, 0.2) -- (9.4, 0.2);
+	\draw[red, line width=1]  (9.4,0.2) .. controls (9.7,0.2) and (9.8,1.5) .. (10,1.5);
+	\draw[red, line width=1]  (10,1.5) .. controls (10.2,1.5) and (10.3,0.2) .. (10.6,0.2);
+	\draw[red, line width=1] (10.6, 0.2) -- (11, 0.2);
+
+	%% temps
+	\only <2> {\draw (9, -0.1) -- (9, 5.8); \node at (9.2, 5.7) {$t$};}
+	\only <3> {\draw (10, -0.1) -- (10, 5.8); \node at (10.2, 5.7) {$t$};}
+
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+
+\end{frame}
+
+
+% \frame{
+%   \frametitle{Choix du chemin}
+%   \begin{itemize}
+%   \item Comment aller de $A$ en $B$ de façon précise ?
+%   \item La ligne droite n'est pas forcément la meilleure
+%     stratégie. DESSIN ICI
+%   \end{itemize}
+% }
 
 \subsection{Notre problème}
 \frame{
@@ -115,6 +211,225 @@
 }
 
 \section{Modélisation et algorithmes de recalage}
+\subsection{Approche par intervalles}
+
+\begin{frame}
+
+\frametitle{Enoncé du problème sous forme continue}
+
+On veut trouver la trajectoire initiale (du robot parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
+~\\
+Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du robot parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
+\[
+	\begin{array}{ll}
+		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
+			& \gamma(0) = A, \\
+			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
+			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
+			\end{array}
+\]
+L'incertitude de $\gamma_0$ est
+\[
+	c(\gamma_0) = \left| \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\} \right|.
+\]
+Le (pseudo)-problème est 
+\[
+	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Variantes et énoncé sous forme discrète}
+
+
+\textcolor{red}{Variantes :}
+\begin{itemize}
+	\item Le temps final $T$ peut-être libre,
+	\item On peut vouloir minimiser \textcolor{red}{l'incertitude globale}, au lieu de l'incertitude finale,
+	\item On peut vouloir rajouter des contraintes sur $\gamma_0$, par exemple
+	\[
+		\forall \ 0 \le t \le T, \quad \left\| \gamma'(t) \right\|_\infty \in [v_{\rm min}, v_{\rm max}].
+	\]
+\end{itemize}
+
+\textcolor{red}{En pratique, toutes les données sont discrètes :}
+\begin{itemize}
+	\item Le robot réel prend des mesures avec une certaine fréquence (1Hz, ici, 0.1 Hz)
+	\item La carte est "pixellisée" (1 pixel = 1 mètre)
+\end{itemize}
+
+\begin{center}
+\textcolor{red}{On va chercher des stratégies d'optimisation pour des problèmes discrets.}
+\end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+
+\frametitle{Outline}
+
+
+\begin{center}
+\textcolor{violet}{
+	\huge{Calcul de l'incertitude : l'algorithme de recalage.}}
+\end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+
+\frametitle{Algorithme de recalage}
+
+
+\textcolor{red}{Algorithme de recalage (pour le robot réel) :}\\
+\indent \textcolor{blue}{Entrée : } $\gamma_0 := \left\{ A, A_1, A_2, \ldots, A_N = B \right\}$\footnote{Ici, $A_k = \gamma_0(kT/N)$} la trajectoire du robot parfait.\\
+\indent \textcolor{blue}{Sortie : } L'incertitude $c(\gamma_0)$.\\
+~\\
+
+\textcolor{red}{Idée :}
+\begin{itemize}
+	\item On pose 
+	\[
+		J_k := \left\{ \gamma \left(\dfrac{kT}{N} \right), \ \gamma \in \mathcal{A}_{\gamma_0} \right\},
+	\]
+	l'ensemble des positions admissibles au temps $k$.
+	\item On a $J_0 = \{ A \}$, et on peut calculer les $J_k$ par récurrences.
+	\item On a $c(\gamma_0) = \sharp \left( J_N \right)$ (\textcolor{blue}{incertitude finale}), ou $c(\gamma_0) = \sum_{k=1}^N \sharp \left( J_k \right)$ (\textcolor{blue}{incertitude globale}).
+\end{itemize}
+
+
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+
+\frametitle{Une étape de recalage}
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tikzpicture}[scale =1]
+
+	%% Box
+	\draw (0,0) rectangle (10, 6);
+	
+	%% J_k
+	\draw[blue] (1,3) circle (0.4);
+	\draw[blue] (1, 3.5) circle (0.5);
+	\fill[blue!20] (1,3) circle (0.4);
+	\fill[blue!20] (1, 3.5) circle (0.5);
+	\node[blue] at (1, 4.4) {$J_k$};
+	
+	
+	%%%%%%%%%%%%%%
+	%% T(J_{k})
+	\only<3, 4, 5> {\draw[blue] (5,1) circle (0.7);
+	\draw[blue] (5, 1.5) circle (0.8);
+	\fill[blue!20] (5,1) circle (0.7);
+	\fill[blue!20] (5, 1.5) circle (0.8);}
+	
+		%%%%%%%%%%%%%%%%%
+	% J_{k+1}
+	\only<5-> {
+		\fill[red!20] (4.45, 0.6) -- (4.75, 0.33) -- (5.25, 0.33) -- (5.72, 1.85) -- (5.35, 2.22) -- (5, 2.3) -- cycle;
+	}
+	\only<6> {\node[red] at (5, 2.5) {$J_{k+1}$};}
+	
+	\only<3> {
+	\node[blue] at (5, 2.6) {$T(J_{k})$};
+	\draw (1,4) -- (5, 2.3);
+	\draw (1,2.6) -- (5, 0.3);}
+	
+	%% A_k, A_{k+1}
+	\draw (0.9, 2.9) -- (1.1, 3.1);
+	\draw (0.9, 3.1) -- (1.1, 2.9);
+	\node at (1, 3.3) {$A_k$};
+	
+	\only<2> {\node at (3, 1.7) {${v_k}$};}
+	\only <2-> {
+	\draw (4.9, 0.9) -- (5.1, 1.1);
+	\draw (4.9, 1.1) -- (5.1, 0.9);
+	\node at (5, 1.3) {$A_{k+1}$};}
+	
+	\only<2,3> {
+	\draw[->] (1,3) -> (5, 1);}
+	
+	%%%%%%%%%%%%%%%%%
+	% frame 4 : ligne de niveaux
+	\only<4, 5> {
+	\draw[red] (4.3, 0.2) -- (5.3, 3.3); 
+	\draw[red] (4.72, 0.2) -- (6.1, 4.5); 
+	\draw[red] (5.2, 0.2) -- (6.2, 3.3); 
+	}
+	\only <4> {
+	\node[red] at (6.1, 4.7) {$\{ H^{-1} (h_{k+1}) \}$};
+	\node[red] at (7.2, 3.5) {$\{ H^{-1} (h_{k+1} + \epsilon_h) \}$};
+	\node[red] at (4.1, 3.5) {$\{ H^{-1} (h_{k+1} - \epsilon_h) \}$};
+	}
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+\only <1> {On part de l'ensemble $J_k$ (avec $A_k \in J_k$).}
+\only <2> {On lit une vitesse $\widetilde{v_k} = v_k + e_{v,k}$, avec $| e_{v,k}| < \epsilon_v$.}
+\only <3> {On translate l'ensemble par ${v_k}$, et on prend son $\epsilon_v$-voisinage.}
+\only <4> {On lit une hauteur $\widetilde{h_{k+1}} = h_{k+1} + e_{h,k+1}$, avec $| e_{h,k+1} | < \epsilon_h$.}
+\only <5> {On prend l'intersection.}
+\only <6> {On obtient $J_k$ comme l'intersection de 2 ensembles.}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Algorithme de recalage sur données réelles}
+
+Put pictures here
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+
+\frametitle{Algorithme de recalage sur données réelles}
+
+Put pictures here
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Algorithme de recalage par boites}
+Schéma avec trois points
+
+Example avec les trucs blancs
+\section{Optimisation de trajectoire}
+\subsection{Gloutonne}
+\subsection{Dijkstra}
+\subsection{Continu}
+\section{Future research}
 \subsection{Modélisation des incertitudes}
 \begin{frame}
   \frametitle{Incertitudes}
@@ -134,100 +449,57 @@
 \item Modèles ad hoc
 \end{itemize}
 \end{frame}
-\subsection{Approche par intervalles}
+
 \begin{frame}
-
-\frametitle{Présentation du problème}
-
-
-\textcolor{red}{Robot parfait} :
-\begin{itemize}
-    \item connait parfaitement la trajectoire de $A$ à $B$.
-    \item calcule parfaitement $(v_x(t), v_y(t), h(t))$.
-\end{itemize}
-
-
-\begin{figure}[!h]
-\begin{center}
-    \begin{tikzpicture}[scale =1]
-
-    %% Boite trajectoire
-    \draw (0,0) rectangle (7, 6);
-
-    % A et B
-    \node at (1, 3.8) {$A$};
-    \node at (6, 2.8) {$B$};
-
-    % Obstacle
-    \foreach \r in {0.1, 0.2, 0.3, 0.5, 0.8}
-    {
-        \draw (4, 1.5) circle (\r);
-    }
-
-    \draw[line width=1.5]  (1, 3.5) -- (4, 1.5) -- (6, 2.5);
-    \only<1> \shade[ball color=red] (1,3.5) circle (.15);
-    \only<2> \shade[ball color=red] (4,1.5) circle (.15);
-    \only<3> \shade[ball color=red] (6,2.5) circle (.15);
-
-
-
-    %% Boite vx
-    \draw[->] (8, 4) -> (11, 4);     \draw[->] (8, 4) -> (8, 5.8);
-    \node at (8.3, 5.5) {$v_x$}; \node at (11.2, 4) {$t$};
-
-    \only<2-> \draw[red, line width=1.2] (8, 5) -- (10, 5);
-    \only<3> \draw[red, line width=1.2] (10,5.4) -- (11, 5.4);
-
-    %% Boite vy
-    \draw[->] (8, 2) -> (11, 2);     \draw[->] (8, 2) -> (8, 3.8);
-    \node at (8.3, 3.5) {$v_y$}; \node at (11.2, 2) {$t$};
-
-    \only<2-> \draw[red, line width=1.2] (8, 2.5) -- (10, 2.5);
-    \only<3> \draw[red, line width=1.2] (10,3.4) -- (11, 3.4);
-
-    %% Boite h
-    \draw[->] (8, 0) -> (11, 0);     \draw[->] (8, 0) -> (8, 1.8);
-    \node at (8.3, 1.5) {$h$}; \node at (11.2, 0) {$t$};
-
-    \only<2-> \draw[red, line width=1.2] (8, 0.2) -- (9.4, 0.2);
-    \only<2-> \draw[red, line width=1.2]  (9.4,0.2) .. controls (9.7,0.2) and (9.8,1.5) .. (10,1.5);
-    \only<3> \draw[red, line width=1.2]  (10,1.5) .. controls (10.2,1.5) and (10.3,0.2) .. (10.6,0.2);
-    \only<3> \draw[red, line width=1.2] (10.6, 0.2) -- (11, 0.2);
-
-
-\end{tikzpicture}
-\end{center}
-\end{figure}
-
-
+  \frametitle{Modèle simpliste}
+Modèle plus simple ?
+\begin{align*}
+  \min_{\gamma(0) = A, \gamma(1) = B} \int a |\gamma'|^{2} + b |\nabla
+  h \cdot \gamma'|^{2}
+\end{align*}
 \end{frame}
-\subsection{Algorithme de recalage par boites}
-Schéma avec trois points
 
-Example avec les trucs blancs
-\section{Optimisation de trajectoire}
-\subsection{Gloutonne}
-\subsection{Dijkstra}
-\subsection{Continu}
-\section{Future research}
-Ellipses ?
+\begin{frame}
+  \frametitle{Un modèle un peu plus complexe}
+Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
+$\sigma_{y}$ :
 \begin{align*}
-  \min \sigma_{x}(1) + \sigma_{y}(1)\\
-  \sigma_{x}' &= a - b \sigma_{x} (\partial_{x} h)^{2}\\
-  \sigma_{x}' &= a - b \sigma_{x} (\partial_{x} h)^{2}
+  \min_{\gamma(0) = 1, \gamma(1) = B} & \hspace{.5cm}\sigma_{x}(1) + \sigma_{y}(1)\\
+  \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
+  \dot \sigma_{y} &= a - b \sigma_{y} (\partial_{y} h(\gamma(t)))^{2}.
 \end{align*}
 
+Sous la forme générale d'un contrôle optimal.
 
-Modèle isotrope ?
-
-Modèle continu ?
+Problème : modèle non isotrope, problèmes sur les trajectoires
+diagonales. Représentation de l'incertitude par une matrice SDP $A$ ?
 \begin{align*}
-  c(\gamma) = \int a |\gamma'^{2}| + \nabla h \cdot \gamma'
+  \dot A = a A - b (A \nabla h \nabla h^{T} + \nabla h \nabla h^{T} A).
 \end{align*}
-
-
-Probas ? Bayésien ?
-
+Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
+\end{frame}
+\begin{frame}
+  \frametitle{Modélisation probabiliste}
+  \begin{itemize}
+  \item Approche par intervalles néglige la compensation des erreurs
+    et est trop pessimiste : si $X_{n+1} = X_{n} + Y$,
+    $Y \sim N(0, 1)$, alors $X_{n} \sim N(0, \sqrt n)$, un intervalle
+    à $3\sigma$ donne $X_{n} \in [-3n, 3n]$
+  \item Inférence bayésienne ? J'ai une information a priori sur la
+    position du sous-marin, et je la mets à jour avec les informations
+    de bathymétrie
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Feature detection}
+  \begin{itemize}
+  \item Si une hauteur $H$ est atteinte en un unique point $(x,y)$,
+    alors $(x,y)$ permet de se recaler exactement
+  \item Idée : détecter les ``points d'intérêt'' 
+  \end{itemize}
+\end{frame}
 Feature detection ?
+
+
 \section{Conclusion}
 \end{document}
