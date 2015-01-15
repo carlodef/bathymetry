@@ -517,13 +517,51 @@ RESULTATS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
 \subsection{Résultats}
+\begin{frame}{Autre version}
+\begin{center}
+%\begin{tikzpicture}
+%\draw[gray] (0,0) grid[xstep=0.125,ystep=0.125] (1,1);
+%\end{tikzpicture}
+\begin{tikzpicture}[scale=0.5]
+\draw[gray] (0,0) grid[xstep=0.125,ystep=0.125] (1,1);
+%\draw[gray] (0,0) -- (1,1);
+%\draw[gray] (0,0.125) -- (0.875,1);
+%\draw[gray] (0,0.25) -- (0.75,1);
+%\draw[gray] (0,0.375) -- (0.625,1);
+%\draw[gray] (0,0.5) -- (0.5,1);
+%\draw[gray] (0,0.625) -- (0.375,1);
+%\draw[gray] (0,0.75) -- (0.25,1);
+%\draw[gray] (0,0.875) -- (0.125,1);
+%\draw[gray] (0.125,0) -- (1,0.875);
+%\draw[gray] (0.25,0) -- (1,0.75);
+%\draw[gray] (0.375,0) -- (1,0.625);
+%\draw[gray] (0.5,0) -- (1,0.5);
+%\draw[gray] (0.625,0) -- (1,0.375);
+%\draw[gray] (0.75,0) -- (1,0.25);
+%\draw[gray] (0.875,0) -- (1,0.125);
+\draw (0,0) grid (8,8);
+%\draw[|-|,>=latex] (-0.5,2) -- (-0.5,3);
+%\draw node[left] at (-0.5,2.5) {$H$};
+\draw[->,>=latex] (-0.35,0.3) -- (0.2,0.3);
+\draw node[left] at (-0.25,0.3) {$C$};
+\end{tikzpicture}
+\end{center}
+
+
+
+
+\begin{itemize}
+\item Soit $r\in (0,1)$. Dans chaque sous partie $C$ , sélectionner l'ensemble des points $P$ tels que $\|\nabla h(P)\|\geq \|\nabla h\|_{\mathit{L}^\infty(C)}(1-r)$.
+\item Coût $c(P,Q)=c(\{P,Q\})$ pour tout $Q\in E_P$.
+\end{itemize}
+\end{frame}
 \begin{frame}[Résultats]
 \only<1>{\begin{tabular}{cc}
 \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_000.png} &
 \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
-cost=91&cost=\\
+%cost=91&cost=\\
 &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
-&cost=26\\
+%&cost=26\\
 \end{tabular}
 }
 %\only<2>{\begin{tabular}{cc}
@@ -545,9 +583,9 @@ cost=91&cost=\\
 \only<2>{\begin{tabular}{cc}
 \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
 \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} \\
-cost=91&cost=\\
+%cost=91&cost=\\
 &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
-&cost=26\\
+%&cost=26\\
 \end{tabular}
 }
 \end{frame}
@@ -615,7 +653,7 @@ Problème trop difficile : simplifications de $c(\gamma_{0})$?
 
 \begin{frame}
   \frametitle{Modèle jouet}
-  On cherche à aller sur des zones de \textcolor{red}{grande pente}:
+  On cherche à aller sur des zones de grande pente:
   \begin{align*}
     c(\gamma) = -\int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
   \end{align*}
@@ -638,9 +676,9 @@ $\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
 
 \end{frame}
 \begin{frame}
-  \frametitle{Un modèle un peu plus complexe} Modèle
-  d'\textcolor{red}{équation différentielle} effectif pour les
-  incertitudes en $x$ et $y$ $\sigma_{x}$ et $\sigma_{y}$ :
+  \frametitle{Un modèle un peu plus complexe}
+Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
+$\sigma_{y}$ :
 \begin{align*}
   c(\gamma) &= \sigma_{x}(1) + \sigma_{y}(1), \text{ où}\\
   \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
@@ -651,7 +689,7 @@ Amortissement exponentiel vers un point d'équilibre $\sigma_{x} \sim
 contrôle optimal. Problème : modèle non isotrope (trajectoires
 diagonales ?)
 
-Généralisation : représenter l'incertitude par une \textcolor{red}{matrice SDP} $A$. Si
+Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
 on pose $G = h h^{T}$,
 \begin{align*}
   \dot A = a A - b \sqrt G A \sqrt G.
@@ -663,12 +701,12 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
 
 \section{Pistes probabilistes}
 \begin{frame}
-  \frametitle{Modélisation de la dérive}
+  \frametitle{Modélisation des incertitudes}
 \begin{itemize}
 \item Sources d'incertitude : précision de l'accéléromètre, erreurs
   d'intégration (fréquence finie), erreur numérique (stockage en
   virgule flottante)
-\item \textcolor{red}{Dérive} de l'estimation de position
+\item Dérive de l'estimation de position
 \item Modélisation délicate
 \item Si on fait une erreur initiale sur l'accélération, dérive en
   $t^{2}$
@@ -684,7 +722,7 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \frametitle{Modélisation probabiliste}
   \begin{itemize}
   \item Une approche par intervalles néglige la compensation des erreurs
-    et est trop pessimiste. Modèle \textcolor{red}{probabiliste} ?
+    et est trop pessimiste. Modèle probabiliste ?
   \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
     sous-marin, supposé exact.
   \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
@@ -719,9 +757,10 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \end{align*}
   où $N$ est choisi pour normaliser $X_{n+1}$.
 
-  On \textcolor{red}{évalue $h$} pour calculer $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$, on calcule $P(X_{n} + v_{n} +
-  \varepsilon_{v} = x)$ par \textcolor{red}{translation} et \textcolor{red}{convolution}, on \textcolor{red}{multiplie} et on
-  \textcolor{red}{normalise}. En théorie bien plus précis que l'approche par boites,
+  On calcule $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (facile si
+  $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
+  \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
+  normalise. En théorie bien plus précis que l'approche par boites,
   mais quel traitement des incertitudes de vitesse ?
 \end{frame}
 
