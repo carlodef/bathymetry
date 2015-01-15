@@ -580,7 +580,7 @@ Problème trop difficile : simplifications de $c(\gamma_{0})$?
 
 \begin{frame}
   \frametitle{Modèle jouet}
-  On cherche à aller sur des zones de grande pente:
+  On cherche à aller sur des zones de \textcolor{red}{grande pente}:
   \begin{align*}
     c(\gamma) = -\int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
   \end{align*}
@@ -603,9 +603,9 @@ $\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
 
 \end{frame}
 \begin{frame}
-  \frametitle{Un modèle un peu plus complexe}
-Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
-$\sigma_{y}$ :
+  \frametitle{Un modèle un peu plus complexe} Modèle
+  d'\textcolor{red}{équation différentielle} effectif pour les
+  incertitudes en $x$ et $y$ $\sigma_{x}$ et $\sigma_{y}$ :
 \begin{align*}
   c(\gamma) &= \sigma_{x}(1) + \sigma_{y}(1), \text{ où}\\
   \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
@@ -616,7 +616,7 @@ Amortissement exponentiel vers un point d'équilibre $\sigma_{x} \sim
 contrôle optimal. Problème : modèle non isotrope (trajectoires
 diagonales ?)
 
-Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
+Généralisation : représenter l'incertitude par une \textcolor{red}{matrice SDP} $A$. Si
 on pose $G = h h^{T}$,
 \begin{align*}
   \dot A = a A - b \sqrt G A \sqrt G.
@@ -628,12 +628,12 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
 
 \section{Pistes probabilistes}
 \begin{frame}
-  \frametitle{Modélisation des incertitudes}
+  \frametitle{Modélisation de la dérive}
 \begin{itemize}
 \item Sources d'incertitude : précision de l'accéléromètre, erreurs
   d'intégration (fréquence finie), erreur numérique (stockage en
   virgule flottante)
-\item Dérive de l'estimation de position
+\item \textcolor{red}{Dérive} de l'estimation de position
 \item Modélisation délicate
 \item Si on fait une erreur initiale sur l'accélération, dérive en
   $t^{2}$
@@ -649,7 +649,7 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \frametitle{Modélisation probabiliste}
   \begin{itemize}
   \item Une approche par intervalles néglige la compensation des erreurs
-    et est trop pessimiste. Modèle probabiliste ?
+    et est trop pessimiste. Modèle \textcolor{red}{probabiliste} ?
   \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
     sous-marin, supposé exact.
   \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
@@ -684,10 +684,9 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \end{align*}
   où $N$ est choisi pour normaliser $X_{n+1}$.
 
-  On calcule $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (facile si
-  $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
-  \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
-  normalise. En théorie bien plus précis que l'approche par boites,
+  On \textcolor{red}{évalue $h$} pour calculer $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$, on calcule $P(X_{n} + v_{n} +
+  \varepsilon_{v} = x)$ par \textcolor{red}{translation} et \textcolor{red}{convolution}, on \textcolor{red}{multiplie} et on
+  \textcolor{red}{normalise}. En théorie bien plus précis que l'approche par boites,
   mais quel traitement des incertitudes de vitesse ?
 \end{frame}
 
