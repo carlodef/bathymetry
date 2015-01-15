@@ -30,6 +30,9 @@ def animate(i, depth_map, gamma, J_record, im, pathplot):
     im.set_array(a)
     gammabis = np.array(gamma)
     pathplot.set_data(gammabis[:,1], gammabis[:,0])
+    A = gamma[0]
+    B = gamma[-1]
+    plt.savefig('data/plot_A_%d_%d_B_%d_%d_iteration_%03d.png' % (A[0], A[1], B[0], B[1], i))
     return [im, pathplot]
 
 
