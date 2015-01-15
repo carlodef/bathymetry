@@ -517,14 +517,13 @@ RESULTATS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
 \section{Pistes continues}
-\subsection{Variationnel}
 
 \begin{frame}
 
 \frametitle{Enoncé du problème sous forme continue}
 
-On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
-~\\
+% On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
+% ~\\
 Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
 \[
 	\begin{array}{ll}
@@ -536,12 +535,14 @@ Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on n
 \]
 L'incertitude de $\gamma_0$ est
 \[
-	c(\gamma_0) = \left| \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\} \right|.
+	c(\gamma_0) = \text{Vol} \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\}.
 \]
-Le (pseudo)-problème est 
+On cherche alors
 \[
 	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
 \]
+
+Problème trop difficile : simplifications de $c(\gamma_{0})$?
 
 \end{frame}
 
@@ -577,41 +578,49 @@ Le (pseudo)-problème est
 % \end{frame}
 
 
-\subsection{Modèle simple}
 \begin{frame}
   \frametitle{Modèle jouet}
-Modèle plus simple ?
+  On cherche à aller sur des zones de grande pente:
+  \begin{align*}
+    c(\gamma) = \int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
+  \end{align*}
+
+  (très) mal posé : régularisation par la distance totale ?
+  
 \begin{align*}
-  \min_{\gamma(0) = A, \gamma(1) = B} \int a |\gamma'|^{2} + b |\nabla
-  h \cdot \gamma'|^{2}
+  c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} + b |\nabla
+  h(\gamma(t))|^{2} dt
 \end{align*}
+
+Étude théorique ? Méthodes numériques ?
 \end{frame}
-\subsection{Modèle plus compliqué}
 \begin{frame}
   \frametitle{Un modèle un peu plus complexe}
 Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
 $\sigma_{y}$ :
 \begin{align*}
-  \min_{\gamma(0) = 1, \gamma(1) = B} & \hspace{.5cm}\sigma_{x}(1) + \sigma_{y}(1)\\
+  c(\gamma) &= \sigma_{x}(1) + \sigma_{y}(1), \text{ où}\\
   \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
   \dot \sigma_{y} &= a - b \sigma_{y} (\partial_{y} h(\gamma(t)))^{2}.
 \end{align*}
+Amortissement exponentiel vers un point d'équilibre $\sigma_{x} \sim
+1/(\partial_{y} h(\gamma(t)))^{2}$. Sous la forme générale d'un
+contrôle optimal. Problème : modèle non isotrope (trajectoires
+diagonales ?)
 
-Sous la forme générale d'un contrôle optimal.
-
-Problème : modèle non isotrope, problèmes sur les trajectoires
-diagonales. Représentation de l'incertitude par une matrice SDP $A$ ?
-
-TODO $G = h h^{T}$, sqrt
+Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
+on pose $G = h h^{T}$,
 \begin{align*}
-  \dot A = a A - b (A \nabla h \nabla h^{T} + \nabla h \nabla h^{T} A).
+  \dot A = a A - b \sqrt G A \sqrt G.
 \end{align*}
-Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
+On modifie les incertitudes dans la direction $\nabla h$, on n'y
+touche pas dans $\nabla h^{\perp}$. Problème : $A$ ne reste
+pas forcément SDP. Y a-t-il une bonne généralisation ?
 \end{frame}
 
 \section{Pistes probabilistes}
 \begin{frame}
-  \frametitle{Incertitudes}
+  \frametitle{Modélisation des incertitudes}
 \begin{itemize}
 \item Sources d'incertitude : précision de l'accéléromètre, erreurs
   d'intégration (fréquence finie), erreur numérique (stockage en
@@ -624,19 +633,19 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
   $t^{2}$
 \item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
   ? $t^{3/2}$ ? $t^{5/2}$ ?
+\item Non trivial en pratique
 \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Modélisation probabiliste}
   \begin{itemize}
-  \item Approche par intervalles néglige la compensation des erreurs
-    et est trop pessimiste : si $X_{n+1} = X_{n} + Y$,
-    $Y \sim N(0, 1)$, alors $X_{n} \sim N(0, \sqrt n)$, un intervalle
-    à $3\sigma$ donne $X_{n} \in [-3n, 3n]$
+  \item Une approche par intervalles néglige la compensation des erreurs
+    et est trop pessimiste. Modèle probabiliste ?
   \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
     sous-marin, supposé exact.
-  \item Soit $X_{n}$ la position estimée du sous-marin. Loi de $X_{n+1}$
+  \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
+    $X_{n+1}$ ?
   \item Sans bathymétrie, on met à jour la position avec le vecteur
     vitesse $v_{n} = x_{n+1} - x_{n}$, entaché d'une erreur aléatoire
     $\varepsilon_{v}$
@@ -645,31 +654,31 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
   \end{itemize}
 
   \begin{center}
-  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon \;\Big|\;
-    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde \varepsilon)$}}
+  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon_{v} \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + \varepsilon_{h})$}}
   \end{center}
 \end{frame}
 \begin{frame}
   \frametitle{Modélisation probabiliste}
   \begin{center}
-  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon \;\Big|\;
-    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde \varepsilon)$}}
+  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon_{v} \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) +  \varepsilon_{h})$}}
   \end{center}
 
   En notant formellement $P(X=x)$ pour la densité de $X$ en $x$,
   \begin{align*}
-    P(X_{n+1} = x) &= P(X_{n} + v_{n} + \varepsilon = x \;\Big|\;
-    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde
-                     \varepsilon)\\
-    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon = x \cap
-    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde \varepsilon)\\
-    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon = x) \; P(h(x) = h(x_{n+1}) + \tilde \varepsilon),
+    P(X_{n+1} = x) &= P(X_{n} + v_{n} + \varepsilon_{v} = x \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + 
+                     \varepsilon_{h})\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon_{v} = x \cap
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + \varepsilon_{h})\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon_{v} = x) \; P(h(x) = h(x_{n+1}) + \varepsilon_{h}),
   \end{align*}
   où $N$ est choisi pour normaliser $X_{n+1}$.
 
-  On calcule $P(h(x) = h(x_{n+1}) + \tilde \varepsilon)$ (facile si
-  $\varepsilon$ est gaussienne), on calcule $P(X_{n} + v_{n} +
-  \varepsilon = x)$ (translation et convolution), on multiplie et on
+  On calcule $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (facile si
+  $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
+  \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
   normalise. 
 \end{frame}
 
