@@ -14,6 +14,7 @@
   \newcommand{\rp}{\right)}
 \usepackage{blkarray}
 \usepackage{multirow}
+\usepackage{framed,fancybox}
 \usepackage{tikz}
 % \usepackage{algorithm2e}
 % \usepackage{algorithmic}
@@ -45,7 +46,7 @@
 \setbeamertemplate{headline}{}
 \setbeamertemplate{footline}{}
 % \setbeamertemplate{blocks}[rounded][shadow=false]
-\title[iX_Blue]{SEME 2015: iX-Blue Optimisation de trajectoire pour la navigation Bathymetrique}
+\title[iX_Blue]{Optimisation de trajectoire pour la navigation bathymétrique}
 \author{Kieran Delamotte, Carlo de Franchis, David Gontier, Antoine Levitt, Fraçois Madiot, Carlo Marcati}
 \date{SEME, Vendredi 16 Janvier 2015}
 \institute{Sujet proposé par Jérémy Nicola, iXBlue}
@@ -92,13 +93,81 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\frametitle{Présentation du problème}
+
+
+\textcolor{red}{Sous-Marin parfait} : 
+\begin{itemize}
+	\item connait parfaitement la trajectoire de $A$ à $B$.
+	\item calcule parfaitement $(v_x(t), v_y(t), h(t))$.
+\end{itemize}
+
+
+\begin{figure}[!h]
+\begin{center}
+	\begin{tikzpicture}[scale =1]
+
+	%% Boite trajectoire
+	\draw (0,0) rectangle (7, 6);
+	
+	% A et B
+	\node at (1, 3.8) {$A$};
+	\node at (6, 2.8) {$B$};
+	
+	% Obstacle
+	\foreach \r in {0.1, 0.2, 0.3, 0.5, 0.8}
+	{
+		\draw (4, 1.5) circle (\r);
+	}
+		
+	\draw[line width=1.5]  (1, 3.5) -- (4, 1.5) -- (6, 2.5);
+	\only<1> \shade[ball color=red] (1,3.5) circle (.15);
+	\only<2> \shade[ball color=red] (4,1.5) circle (.15);
+	\only<3> \shade[ball color=red] (6,2.5) circle (.15);
+	
+
+	% temps t
+	\only <2> {\draw (10, -0.1) -- (10, 5.8); \node at (10.2, 5.7) {$t$};}
+	
+	%% Boite vx
+	\draw[->] (8, 4) -> (11, 4); 	\draw[->] (8, 4) -> (8, 5.8);	
+	\node at (8.3, 5.5) {$v_x$}; \node at (11.2, 4) {$t$};
+	
+	\only<2-> \draw[red, line width=1.2] (8, 5) -- (10, 5);
+	\only<3> \draw[red, line width=1.2] (10,5.4) -- (11, 5.4);
+	
+	%% Boite vy
+	\draw[->] (8, 2) -> (11, 2); 	\draw[->] (8, 2) -> (8, 3.8);
+	\node at (8.3, 3.5) {$v_y$}; \node at (11.2, 2) {$t$};
+	
+	\only<2-> \draw[red, line width=1.2] (8, 2.5) -- (10, 2.5);
+	\only<3> \draw[red, line width=1.2] (10,3.4) -- (11, 3.4);
+	
+	%% Boite h
+	\draw[->] (8, 0) -> (11, 0); 	\draw[->] (8, 0) -> (8, 1.8);
+	\node at (8.3, 1.5) {$h$}; \node at (11.2, 0) {$t$};
+	
+	\only<2-> \draw[red, line width=1.2] (8, 0.2) -- (9.4, 0.2);
+	\only<2-> \draw[red, line width=1.2]  (9.4,0.2) .. controls (9.7,0.2) and (9.8,1.5) .. (10,1.5);
+	\only<3> \draw[red, line width=1.2]  (10,1.5) .. controls (10.2,1.5) and (10.3,0.2) .. (10.6,0.2);
+	\only<3> \draw[red, line width=1.2] (10.6, 0.2) -- (11, 0.2);
+
+
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+
+\end{frame}
 
 \begin{frame}
 
 \frametitle{Présentation du problème}
 
 
-\textcolor{red}{Robot réel} : 
+\textcolor{red}{Sous-Marin réel} : 
 \begin{itemize}
 	\item connait parfaitement $A$, et la carte de fond.
 	\item Il a $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
@@ -217,9 +286,9 @@
 
 \frametitle{Enoncé du problème sous forme continue}
 
-On veut trouver la trajectoire initiale (du robot parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
+On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
 ~\\
-Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du robot parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
+Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
 \[
 	\begin{array}{ll}
 		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
@@ -260,7 +329,7 @@ Le (pseudo)-problème est
 
 \textcolor{red}{En pratique, toutes les données sont discrètes :}
 \begin{itemize}
-	\item Le robot réel prend des mesures avec une certaine fréquence (1Hz, ici, 0.1 Hz)
+	\item Le sous-marin réel prend des mesures avec une certaine fréquence (1Hz, ici, 0.1 Hz)
 	\item La carte est "pixellisée" (1 pixel = 1 mètre)
 \end{itemize}
 
@@ -295,8 +364,8 @@ Le (pseudo)-problème est
 \frametitle{Algorithme de recalage}
 
 
-\textcolor{red}{Algorithme de recalage (pour le robot réel) :}\\
-\indent \textcolor{blue}{Entrée : } $\gamma_0 := \left\{ A, A_1, A_2, \ldots, A_N = B \right\}$\footnote{Ici, $A_k = \gamma_0(kT/N)$} la trajectoire du robot parfait.\\
+\textcolor{red}{Algorithme de recalage (pour le sous-marin réel) :}\\
+\indent \textcolor{blue}{Entrée : } $\gamma_0 := \left\{ A, A_1, A_2, \ldots, A_N = B \right\}$\footnote{Ici, $A_k = \gamma_0(kT/N)$} la trajectoire du sous-marin parfait.\\
 \indent \textcolor{blue}{Sortie : } L'incertitude $c(\gamma_0)$.\\
 ~\\
 
@@ -485,10 +554,54 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
   $t^{2}$
 \item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
   ? $t^{3/2}$ ? $t^{5/2}$ ?
-\item Hors du cadre de l'étude
-\item Modèles ad hoc
 \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Modélisation probabiliste}
+  \begin{itemize}
+  \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
+    sous-marin, supposé exact.
+  \item Soit $X_{n}$ la position estimée du sous-marin. $X_{n+1}$ ?
+  \item Sans bathymétrie, on met à jour la position avec le vecteur
+    vitesse $v_{n} = x_{n+1} - x_{n}$, entaché d'une erreur aléatoire
+    $\varepsilon_{v}$
+  \item La bathymétrie nous donne $h(X_{n+1}) = h(x_{n+1}) +
+    \varepsilon_{h}$
+  \end{itemize}
+
+  \begin{center}
+  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde \varepsilon)$}}
+  \end{center}
+\end{frame}
+\begin{frame}
+  \frametitle{Modélisation probabiliste}
+  \begin{center}
+  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde \varepsilon)$}}
+  \end{center}
+
+  En notant formellement $P(X=x)$ pour la densité de $X$ en $x$,
+  \begin{align*}
+    P(X_{n+1} = x) &= P(X_{n} + v_{n} + \varepsilon = x \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde
+                     \varepsilon)\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon = x \cap
+    h(X_{n} + v_{n} + \varepsilon) = h(x_{n+1}) + \tilde \varepsilon)\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon = x) \; P(h(x) = h(x_{n+1}) + \tilde \varepsilon),
+  \end{align*}
+  où $N$ est choisi pour normaliser $X_{n+1}$.
+  \begin{itemize}
+  \item $P(h(x) = h(x_{n+1}) + \tilde \varepsilon)$ peut être calculé
+  \end{itemize}
+  
+
+  On peut donc calculer la densité de probabilité de $X_{n+1}$ en
+  fonction de $X_{n+1}$ par une translation, une convolution et une multiplication
+\end{frame}
+
+
 \begin{frame}
   \frametitle{Feature detection}
   \begin{itemize}
@@ -497,7 +610,6 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
   \item Idée : détecter les ``points d'intérêt'' 
   \end{itemize}
 \end{frame}
-Feature detection ?
 
 \subsection{Bibliographie}
 \end{document}
