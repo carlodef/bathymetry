@@ -477,6 +477,106 @@ Put pictures here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Optimisation de trajectoire}
 \subsection{Gloutonne}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Stratégie gloutonne}
+
+
+Notre premier algorithme glouton donne une \textcolor{red}{bonne trajectoire} $\gamma_0$.\\
+~\\
+\textcolor{red}{Remarque :} Il faut trouver des \textcolor{blue}{forts gradients}, qui sont successivement "\textcolor{blue}{orthogonaux}" !\\
+
+
+
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tikzpicture}
+
+    %% main box
+    \draw (0,0) rectangle (10,6.3);
+
+    \node at (5,3.5) {\includegraphics[scale = 0.5]{Images/LevelSet.jpg}};
+
+    \only <1,2> {\fill [red] (7.5, 3) circle (0.2); \node[red] at (8.2, 3) {$J_{k-1}$};}
+
+    \only <2> {
+    \fill[red] (5.5, 2.7) circle (0.4);
+    \draw[line width=1, ->] (7.5, 3) -> (5.5, 2.7);
+    \node[red] at (6.2, 2) {$T(J_{k-1})$};}
+
+
+    \only <3,4> {
+    \fill[red, rotate around={50:(5.5, 2.7)}] (5.5,2.7) ellipse (0.4 and 0.15);     \node[red] at (5.7, 2.2) {$J_k$};
+    }
+
+    \only <3> {\draw[line width=1, ->] (5.5, 2.7) -> (6.5, 2); \node at (7.5, 2) {$\nabla H(A_{k})$};}
+
+    \only <4> {
+        \fill[red, rotate around={50:(6, 4)}] (6,4) ellipse (0.5 and 0.25);
+        \draw[line width=1, ->] (5.5, 2.7) -> (6, 4);
+    }
+    \only <4> {
+        \node[red] at (7, 4) {$T(J_k)$};
+    }
+    \only <5> {
+        \fill[red, rotate around={50:(6, 4)}] (6,4) ellipse (0.1 and 0.25);
+        \draw[line width=1, ->] (6, 4) -> (7, 5); \node at (8, 5) {$\nabla H(A_{k+1})$};
+        \node[red] at (7, 4) {$J_{k+1}$};
+    }
+
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+
+\frametitle{Algorithme glouton}
+
+On en déduit une \textcolor{blue}{stratégie gloutonne} : \\
+~\\
+\textcolor{red}{ALGORITHME :}\\
+\begin{itemize}
+    \item On pose $\gamma = [A]$, et $P = A$.
+    \item Tant que $P \neq B$,
+    \begin{itemize}
+        \item Calculer $E_P = \{P', \ r_{\rm min} \le d(P, P') \le r_{\rm max}, \ d(P', B) < d(P, B) \}$.
+        \item Si $B \in E_P$, $\gamma = [\gamma, B]$, $P = B$.
+        \item Sinon, poser
+        \[
+            P_{\rm next} = \argmin \left\{ \Big| \nabla H(P') \wedge \nabla H(P) \Big|, P' \in E_P    \right\}
+        \]
+        puis $\gamma = [\gamma, P_{\rm next}]$, et $P = P_{\rm next}$.
+    \end{itemize}
+    \item RETURN $\gamma$
+\end{itemize}
+
+\textcolor{red}{Remark :}
+Les constantes $r_{\rm min}$ et $r_{\rm max}$ prennent en compte la vitesse minimale et maximale du sous-marin, et la fréquence d'échantillonnage !
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Algorithme glouton}
+
+RESULTATS
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
 \section{Pistes continues}
 \subsection{Modèle simple}
@@ -578,8 +678,55 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
 
 \section{Bibliographie et ouvertures}
 \begin{frame}
-  \frametitle{Bibliographie}
+%Key-words : Coverage Path Planning (CPP), Boustrophedon, Slicing
+
+\begin{itemize}
+
+
+\frametitle{Quelques pistes bibliographiques}
+
+\item{Robotique} 
+\begin{itemize}
+\item \textit{Sensor-based coverage of un-
+known environments: Incremental construction of morse
+decompositions}, E. U. Acar \& H. Choset (2002)
+\item \textit{Exploiting critical points to reduce positioning error
+  for sensor-based navigation}, E. U. Acar \& H. Choset (2002)
+\item \textit{A Survey on Coverage Path Planning for Robotics},
+  E.Galceran \& M.Carreras (2013)
+\end{itemize}
+
+\item{Bathymétrie}
+\begin{itemize}
+\item  \textit{Terrain-Relative Navigation for Autonomous Underwater Vehicles}, D. di Massa, (1997)
+
+\item \textit{.Landmark Selection for Terrain Matching.},C.F. Olson (2000)
+(Modélisation par erreur gaussienne)
+
+\item \textit{Concurrent mapping and
+localization and map matching on autonomous underwater vehicles}, R. N. Carpenter \& M. R. Medeiros (2001)
+\item \textit{Self Consistent Bathymetric Mapping from Robotic Vehicles in the Deep Ocean}, C.N. Roman (2005)
+\item \textit{Active Localization on the Ocean Floor with Multibeam Sonar N. Fairfield}, D.Wettergreen (2008)
+\item \textit{Using Genetic Algorithms to Optimize Bathymetric Sampling
+for Predictive Model Input}, D. Manian, J. M. Kaihatu \& E. M. Zechman (2012) (algorithme génétique)
+
+
+
+\item \textit{Coverage Path Planning with Real-time Replanning and
+  Surface Reconstruction for Inspection of Three-dimensional
+  Underwater Structures using Autonomous Underwater Vehicles},
+  E. Galceran, R. Campos N.Palomeras, D. Ribas, M. Carreras \&
+  P. Ridao (2014) : Séparation des régions à forts gradient. Les
+  régions de gradient fort sont traités par un algorithme de
+  \textit{slicing} tandis que les autres régions sont traités par
+  l'algorithme de Boutrosphedon.
+\end{itemize}
+
+\item Aéronautique : positionnement d'un satelitte sur une orbite (ex: point de Lagrange)
+\end{itemize}
+
 \end{frame}
+
 
 
 \end{document}
