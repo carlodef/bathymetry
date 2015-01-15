@@ -64,32 +64,41 @@
 }
 
 \section{Présentation du problème}
-\subsection{Contexte}
-\frame{
-  \frametitle{Positionnement}
-  \begin{itemize}
-  \item Activité principale de iXBlue : conception de système de
-    positionnement pour le pétrolier
-  \item Interféromètre à base de fibre optique : donne les
-    accélérations selon les six degrés de liberté
-    \begin{center}
-    \resizebox{.3\textwidth}{!}{\includegraphics{Images/phins}}
-    \resizebox{.5\textwidth}{!}{\includegraphics{Images/interferometre}}
-  \end{center}
-  \end{itemize}
+%\subsection{Contexte}
+%\frame{
+%  \frametitle{Positionnement}
+%  \begin{itemize}
+%  \item Activité principale de iXBlue : conception de système de
+%    positionnement pour le pétrolier
+%  \item Interféromètre à base de fibre optique : donne les
+%    accélérations selon les six degrés de liberté
+%    \begin{center}
+%    \resizebox{.3\textwidth}{!}{\includegraphics{Images/phins}}
+%    \resizebox{.5\textwidth}{!}{\includegraphics{Images/interferometre}}
+%  \end{center}
+%  \end{itemize}
+%
+%}
 
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \frame{
-  \frametitle{Recalage}
-  \begin{itemize}
-  \item Information locale soumise à dérive. Nécessité d'un recalage
-    par des informations globales
-  \item Sous-marin : pas possible d'utiliser un GPS
-  \item Idée : mesurer le fond marin, et comparer avec des cartes bathymétriques
-  \end{itemize}
-    \begin{center}
-    \resizebox{.6\textwidth}{!}{\includegraphics{Images/bathy.png}}
-  \end{center}  
+  \frametitle{Problématique du sous-marin}
+  
+
+ 
+  $\bullet$ Un \textcolor{red}{sous-marin} se déplace à \textcolor{blue}{profondeur constante} (pas de GPS).\\
+  $\bullet$ \textcolor{red}{Problème :} A cause des imprécisions de ses appareils de mesure, et de la dérive, il peut se perdre.\\
+  $\bullet$ \textcolor{red}{Idée} : il peut se \textcolor{red}{recaler} en mesurant le fond marin, et en comparant avec des cartes bathymétriques
+  
+\begin{center}
+    \resizebox{.35\textwidth}{!}{\includegraphics{Images/bathy.png}}
+  \end{center}
+  
+  \textcolor{red}{Question :} \\
+  \begin{center}
+  	Quelles sont les trajectoires qui permettent un recalage précis ?
+	\end{center}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,7 +179,7 @@
 \textcolor{red}{Sous-Marin réel} : 
 \begin{itemize}
 	\item connait parfaitement $A$, et la carte de fond.
-	\item Il a $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
+	\item Il mesure $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
 	\item \textcolor{red}{But : estimer où est $B$ !}
 \end{itemize}
 
@@ -268,16 +277,17 @@
 \subsection{Notre problème}
 \frame{
   \frametitle{Notre problème}
+  
+  \textcolor{red}{Problème :}
   \begin{center}
-    Quel est le chemin de $A$ à $B$ qui minimise l'incertitude en
-    $B$ ?
+    \textcolor{blue}{ Quel est le chemin de $A$ à $B$ qui minimise "l'incertitude" en $B$ ?}
   \end{center}
 
-  Notre approche :
+  \textcolor{red}{Notre approche :}
   \begin{enumerate}
-  \item Définition des incertitudes
-  \item Choix d'une fonction coût
-  \item Optimisation de chemin
+  \item Définition de la notion \textcolor{blue}{d'incertitudes}
+  \item Calcul effectif du \textcolor{blue}{coût} d'un chemin du sous-marin parfait
+  \item \textcolor{blue}{Optimisation} de chemin
   \end{enumerate}
 }
 
