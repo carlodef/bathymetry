@@ -1,0 +1,38 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx} 
+\usepackage{amsmath,amssymb}
+\usepackage{bbm} 
+\usepackage{hyperref}
+\usepackage{epic}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{dsfont}
+\usepackage{ mathrsfs }
+\usepackage{subcaption}
+
+\usetheme{Madrid}
+
+% Vire symbole de navigation
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{block title}{use=structure,fg=structure.fg,bg=structure.fg!20!bg}
+\setbeamercolor*{titlelike}{parent=palette primary}
+
+%Titre = centrÈ + small caps + fond 
+\setbeamertemplate{frametitle}[default][center]
+\setbeamercolor{frametitle}{fg=RoyalPurple!70!Black,bg=structure.fg!5!bg}
+\setbeamerfont{frametitle}{size=\normalsize,shape=\scshape,family=\rmfamily}
+
+\setbeamercolor{CouleurBlock}{fg=structure.fg} 
+\newcommand{\CB}[1]{{\usebeamercolor[fg]{CouleurBlock} #1}}
+
+\setbeamercolor{Couleurexampleblock}{fg=block title Exemple.fg} 
+\newcommand{\CEB}[1]{{\usebeamercolor[fg]{Couleurexampleblock} #1}}
+
+\newcommand{\blanc}{\textcolor{white}{.}}
+
+\def\Bcolorize<#1>{%
+	\temporal<#1>{\color{Gray}}{\color{RoyalBlue}}{\color{Gray}}
+}

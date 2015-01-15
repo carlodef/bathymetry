@@ -1,0 +1,451 @@
+\documentclass[9pt,xcolor=dvipsnames]{beamer}
+
+\input{usepackages_beamer}
+\input{list_commands_beamer}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[$N$-representability]{Pure-state $N$-representability in current-spin-density functional theory}
+\author[David Gontier]{David GONTIER\\
+~\\
+CERMICS, Ecole des Ponts ParisTech and INRIA}
+\date{January 8, 2015}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} 
+\titlepage
+\end{frame} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{The $N$-representability problem}
+
+The set of admissible $N$-electron \blue{wave-functions} (wave functions with finite kinetic energy) is the fermionic space
+\[
+	\cW_N := \left\{ \Psi \in \bigwedge_{i=1}^N L^2(\R^3 \times \{ \spinup, \spindown\}, \C), \ \| \nabla \Psi \|_{L^2} < \infty, \  \| \Psi\|_{L^2} = 1 \right\},
+\]
+where $L^2(\R^3 \times \{ \spinup, \spindown\} ) = \left\{ \Phi = (\phi^\spinup, \phi^\spindown)^T, \  \| \Phi \|_{L^2}^2 := \int_{\R^3} | \phi^\spinup|^2 + | \phi^{\spindown}|^2 < \infty \right\}$. \\
+~\\
+For $\Psi \in \cW_N$, the \blue{electronic density} is
+\[
+	\rho_{\Psi}(\br) := N \sum_{(s_1, \cdots, s_N) \in \{ \spinup, \spindown\}^N} \int_{\R^{3(N-1)}} \left| \Psi (\br, s_1, \br_2, s_2, \cdots, \br_n, s_N) \right|^2 \rd^3 \br_2 \cdots \rd^3 \br_N.
+\]
+The \blue{$N$-representability problem} (for pure-states) is\\
+\begin{center}
+	\red{Is there a characterization of the set $I_N := \left\{ \rho_{\Psi}, \Psi \in \cW_N \right\}$?}
+\end{center}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Gilbert, Harriman, Lieb}
+
+\begin{theorem} [Gilbert\footnotemark, Harriman\footnotemark, Lieb\footnotemark]
+	\[
+		\cI_N := \left\{ \rho \in L^1(\R^3), \quad \rho \ge 0, \quad \int_{\R^3} \rho = N, \quad \sqrt{\rho} \in H^1(\R^3) \right\}.
+	\]
+\end{theorem}
+
+Together with the constrained search by Levy\footnotemark and Lieb\textsuperscript{3},
+\begin{align*}
+	E_N^0(v) := \inf_{\Psi \in \cW_N} \bra \Psi | H(v) | \psi \ket = \inf_{\rho \in \cI_N} \left\{ F_{LL}(\rho) + \int_{\R^3} v \rho \right\}.
+\end{align*}
+The first problem is linear, but very high-dimensional (\blue{curse of dimensionality}), the second problem is low-dimensional (but with an unknown functional).
+
+\addtocounter{footnote}{-4}
+ \stepcounter{footnote} \footnotetext{T.L. Gilbert. Phys. Rev. B, 502, 1975.}
+ \stepcounter{footnote} \footnotetext{J.E. Harriman. Phys. Rev. A, 24,1981.}
+ \stepcounter{footnote} \footnotetext{E.H. Lieb. Int. J. Quantum Chem., 24, 1983.}
+  \stepcounter{footnote} \footnotetext{M. Levy, Proc. Natl. Acad. Sci. USA 76, 1979.}
+  \addtocounter{footnote}{-4}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Outline}
+
+
+\begin{center}
+\textcolor{violet}{
+	\huge{The $N$-representability problem with a magnetic field.}}
+\end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{The Schrödinger-Pauli Hamiltonian}
+
+We consider a system under a magnetic vector potential $\bA$. The \blue{Schrödinger-Pauli Hamiltonian} reads in atomic unit
+\[
+	H(v, \bA) := \sum_{k=1}^N \left( \dfrac12 (-\ri \nabla + \bA(\br_k))^2 + v(\br_k) \right) \mathds{I}_2 - \dfrac12 \sum_{k=1}^N \bB(\br_k) \cdot \bsigma_k + \sum_{1\le k < l \le N} \dfrac{1}{| \br_k - \br_l |} \mathds{I}_2,
+\]
+and it holds
+\[
+	\bra \Psi | H(v, \bA) | \Psi \ket = \bra \Psi | H(0, \bnull) | \Psi \ket + 
+		\int_{\R^3} \tr_{\C_2} \left[ U(v, \bA) R_\Psi \right] + \int_{\R^3} \bA \cdot \bj_\Psi,
+\]
+where
+\[
+	U(v, \bA) :=\dfrac12 \begin{pmatrix} 2v - B_z + | \bA |^2 & -  B_x + \ri B_y \\ -  B_x - \ri  B_y & 2v +  B_z +  | \bA |^2 \end{pmatrix}.
+\]
+Here, $\bB = \curl(\bA)$ is the \blue{magnetic field}. 
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{The spin-polarized density matrix and the paramagnetic current}
+
+We introduced the following $\Psi$-dependent quantities: \\
+~\\
+$\bullet$ The \blue{spin-polarized density $2 \times 2$ matrix $R_\Psi$}, defined by
+\[
+	R_\Psi = \begin{pmatrix} \rho_\Psi^{\spinup \spinup} & \rho_\Psi^{\spinup \spindown} \\ \rho_\Psi^{\spindown \spinup} & \rho_\Psi^{\spindown \spindown} \end{pmatrix}
+\]
+where, for $\alpha, \beta \in \{ \spinup, \spindown\}^2$,
+\[
+	\rho^{\alpha \beta}_{\Psi}(\br) := N \sum_{\vec{s} \in \{ \spinup, \spindown\}^{N-1}} \int_{\R^{3(N-1)}}\overline{\Psi (\br, \alpha,  \vec{\bz}, \vec{s})} \Psi (\br, \beta, \vec{\bz}, \vec{s})\  \rd^{3(N-1)} \vec{\bz}.
+\]
+Note that $R_\Psi$ is an hermitian function-valued $2 \times 2$ matrix, and it holds 
+\[
+	\tr_{\C^2} [ U(v,\bA) R_\Psi ] =  \left( v + \frac{| \bA |^2}{2} \right) \rho -\dfrac12  \bB \cdot \bm,
+\] 
+where $\rho$ is the \blue{total electronic density}, and $\bm$ is the \blue{spin angular momentum density}. \\
+\red{Remark:} $R$ contains exactly the same information as the pair $(\rho, \bm)$.\\
+~\\
+$\bullet$ The \blue{paramagnetic current $\bj_\Psi$} is the vector-valued function
+\[
+	\bj (\br) = \Im \left( N \sum_{\vec{s} \in \{ \spinup, \spindown\}^{(N)}} \int_{\R^{3(N-1)}}  \overline{\Psi(\br, \vec{\bz}, \vec{s})}\  \nabla_{\br'} \Psi(\br', \vec{\bz}, \vec{s}) \Big|_{\br' = \br} \rd^{3(N-1)} \vec{\bz} \right).
+\]
+%Recall that the physical current is $\bj_{\textrm{phys}} := \bj + \rho \bA$.
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Constrained search and representability}
+
+We apply the constrained-search, and obtain
+\[
+	E_N^0 (v, \bA) = \inf_{\Psi \in \cW_N} \bra \Psi | H(v, \bA) | \Psi = \inf_{(R, \bj) \in \cK_N} \left\{ F(R, \bj) + \int_{\R^3} \tr_{\C^2} \left[ U(v, \bA) R \right] + \bA \cdot \bj \right\},
+\]
+which leads to the \blue{current-spin-density functional theory} (CSDFT).\\
+~\\
+ The $N$-representability problem (for pure-state) is
+\begin{center}
+	\red{Is there a characterization of the CSDFT-set $\cK_N := \left\{ (R_\Psi, \bj_\Psi), \ \Psi \in \cW_N \right\}$?}
+\end{center}
+
+\red{Remark:} 
+\begin{itemize}
+	\item If we neglect the spin-effects (\textit{i.e.} the Zeeman term $\bB \cdot \bm$), this energy depends only on the pair $(\rho, \bj)$. This leads to the \blue{current-DFT} (CDFT).
+	\item If we neglect the orbital term (\textit{i.e.} $\bA \cdot \bj$), this energy depends only on $R$. This leads to the \blue{non-collinear spin-DFT} (SDFT).
+\end{itemize}
+
+\begin{center}
+	\red{$\Longrightarrow$ Is there a characterization of the SDFT-set $\cJ_N := \left\{ R_\Psi, \ \Psi \in \cW_N \right\}$?}
+\end{center}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Slater determinants and mixed-state}
+
+\red{Slater determinants}:\\
+A special case of wave functions are the \blue{Slater determinants} of $N$ orthonormal functions $\left\{ \Phi_k = (\phi_k^\spinup, \phi_k^\spindown)^T \right\}_{1 \le k \le N}$:
+\[
+	\sS[\Phi_1, \cdots, \Phi_N] := \dfrac{1}{\sqrt{N!}} \det \left( \Phi_i (\br_j) \right)_{1 \le i,j \le N}.
+\]
+For such a wave-function, the previous quantities have a very special form, namely
+\[
+	R = \sum_{k=1}^N \begin{pmatrix} | \phi^\spinup_k |^2 & \phi^\spinup_k \overline{\phi^\spindown_k} \\ \overline{\phi^\spinup_k} \phi^\spindown_k & | \phi^\spindown_k |^2 \end{pmatrix}, 
+	\quad
+	\rho = \sum_{k=1}^N  | \phi^\spinup_k |^2 +  | \phi^\spindown_k |^2
+	\quad \text{and} \quad
+	\bj = \sum_{k=1}^N \Im \left( \overline{\phi_k^\spinup} \nabla \phi_k^\spinup + \overline{\phi_k^\spindown} \nabla \phi_k^\spindown \right)
+\]
+
+\red{Mixed-states}:\\
+It is possible to extend the notion of $R$, $\rho$ and $\bj$ to \blue{mixed-states}. We will say that a spin-density matrix $R$ is \blue{mixed-state representable} (and similarly for $\rho$ and $\bj$) if $R$ can be written as a convex combination of pure-state representable spin-density matrices:
+\[
+	R = \sum_{k=1}^\infty \lambda_k R_k, \quad 0 \le \lambda_k \le 1, \quad \sum_{k=1}^\infty \lambda_k = 1, \quad \text{and} \quad R_k \quad \text{pure-state representable}.
+\]
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Outline}
+
+
+\begin{center}
+\textcolor{violet}{
+	\huge{Results (previous and new).}}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+
+
+\frametitle{$N$-Representability for SDFT}
+
+\red{Representability for SDFT} (in the pure-state case, and in the mixed-state case):
+
+\begin{theorem}[DG 2013\footnotemark]
+	$\bullet$ A spin-density matrix $R$ is mixed-state representable iff
+	\[
+		R \in \cJ_N :=  \left\{ R \in \cM_{2 \times 2} (L^1(\R^3)), \ R \ge 0, \ \int_{\R^3} \tr_{\C^2} \left[ R \right] = N, \ \sqrt{R} \in \cM_{2 \times 2} (H^1(\R^3, \C)) \right\}.
+	\]
+	If $N \ge 2$, it is also pure-state representable (by a Slater determinant).\\
+	~\\
+	$\bullet$ \textbf{Case $N=1$}\\
+	 A spin-density matrix $R$ is (pure-state) representable by a single orbital iff
+	\[
+		R \in \cJ_1 \quad \text{and} \quad \det{R} \equiv 0.
+	\]
+\end{theorem}
+
+\begin{itemize}
+	\item The $\sqrt{}$ is in the hermitian matrices sense
+	\item  It is a natural extension of the previous result for $\rho$:
+\end{itemize}
+	\[
+		\cI_N = \left\{ \rho \in L^1(\R^3), \quad \rho \ge 0, \quad \int_{\R^3} \rho = N, \quad \sqrt{\rho} \in H^1(\R^3) \right\}.
+	\]
+
+\footnotetext{D. Gontier. Phys. Rev. Lett. 111, 2013.}
+\addtocounter{footnote}{-1}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+
+\frametitle{Application to LSDA}
+
+In the \blue{Local Spin-Density Approximation} (LSDA) introduced by von Barth and Hedin\footnotemark, we write
+\begin{equation} \label{vonBarth}
+	E_{\xc}(R) \approx E_{\xc}^{\LSDA}(\rho^+, \rho^-) := \dfrac12 \left[ E_{\xc}^{\LDA} (2 \rho^+) + E^{\LDA}_{\xc} (2 \rho^-) \right]
+\end{equation}
+where $\rho^{+/-}$ are the two \blue{eigenvalues} of the $2 \times 2$ matrix $R$, and $E_{\xc}^{\LDA}$ is the standard \blue{exchange-correlation functional} in the non-polarized case.\\
+
+
+\begin{lemma}[DG 2013]
+	If $R \in \cJ_N$, then its eigenvalues $\rho^{+,-}$ satisfy
+	\[
+		\rho^{+,-} \in L^1(\R^3),  \quad \rho^{+,-} \ge 0, \quad \sqrt{\rho^{+/-}} \in H^1(\R^3).
+	\]
+	(the converse is false).
+\end{lemma}
+~\\
+\red{Remark}: $E_{\xc}^{\LSDA}$ is well-defined if $E_{\xc}^{\LDA}$ is well-defined.
+
+
+
+\footnotetext{U. von Barth and L. Hedin. J. Phys. C 5,  1972.}
+\addtocounter{footnote}{-1}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Previous Work in CDFT}
+
+\red{Previous results for representability in CDFT} %(in the pure-state case, and in the mixed-state case).
+
+\begin{theorem}[Tellgren, Kvall, Helgaker, 2014\footnotemark]
+	The pair $(\rho, \bj)$ is mixed-state representable whenever
+	\[
+		\rho \in \cI_N, \quad \dfrac{| \bj |^2}{\rho} \in L^1(\R^3)
+		\quad \text{and} \quad
+		(1 + | \cdot |^2) \rho | \nabla (\rho^{-1}  \bj) |^2 \in L^1(\R^3)
+		\quad \text{(mild condition).}
+	\]
+\end{theorem}
+
+%\vspace{-0.5em}
+
+\begin{theorem}[Lieb, Schrader, 2013\footnotemark]
+	The pair $(\rho, \bj)$ is pure-state representable (by a Slater determinant) whenever
+	\[
+		\rho \in \cI_N, \quad \dfrac{| \bj |^2}{\rho} \in L^1(\R^3) 
+		\quad \text{with} \quad
+		 \text{$N \ge 4$ and other mild conditions\footnotemark}.
+	\]
+\end{theorem}
+
+\red{Remark}: The conditions $\rho \in \cI_N$ and $| \bj |^2 / \rho \in L^1(\R^3)$ are also necessary conditions.
+
+\vspace{2em}
+
+
+\addtocounter{footnote}{-2}
+\footnotetext{E.I. Tellgren, S. Kvaal, and T. Helgaker. Phys. Rev. A, 89, 2014.}
+\addtocounter{footnote}{1}
+\footnotetext{E.H. Lieb and R. Schrader. Phys. Rev. A, 88, 2013.}
+\addtocounter{footnote}{1}
+\footnotetext{
+Namely, if $\bw = \curl( \bj / \rho)$,
+\begin{align*}
+		\sup_{\br \in \R^3} & ( 1 + (r_1)^2)^{(1+\delta)/2}  ( 1 + (r_2)^2)^{(1+\delta)/2}  ( 1 + (r_3)^2)^{(1+\delta)/2} \left( | \bw (\br) | + | \nabla \bw(\br) | \right)< \infty \\
+		%\sup_{\br \in \R^3} & ( 1 + (r_1)^2)^{(1+\delta)/2}  ( 1 + (r_2)^2)^{(1+\delta)/2}  ( 1 + (r_3)^2)^{(1+\delta)/2} | \nabla \bw (\br) | < \infty,
+\end{align*}}
+\addtocounter{footnote}{-3}
+
+\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Representability for CSDFT, case $N =1$}
+
+\red{Representability for CSDFT, for $N =1$}
+
+\begin{lemma}[DG]
+	A necessary condition for a pair $(R, \bj)$ to be pure-state representable by a single orbital (having smooth enough global phases) is\footnotemark
+	\[
+		R \in \cJ_1 \quad \text{with} \quad \det(R) \equiv 0
+		\quad \text{and} \quad
+		\curl \left( \dfrac{\bj}{\rho} - \dfrac{\Im( \overline{\rho^{\spinup \spindown}} {\nabla \rho^{\spinup \spindown}})}{\rho \rho^{\spindown \spindown}} \right) = \bnull
+	\]
+\end{lemma}
+~\\
+\red{Remark}: We recover the traditional \blue{curl-free condition} in the unpolarized case, which amounts to setting $\rho^{\spinup \spindown} = 0$: a necessary condition for a pair $(\rho, \bj)$ to be pure-state representable by a single orbital (having a smooth enough global phase) is 
+\[
+	 \rho \in \cI_1
+	 \quad \text{and} \quad
+	 \curl \left( \dfrac{\bj}{\rho} \right) = \bnull .
+\]
+
+\footnotetext{Recall that
+\[
+R = \begin{pmatrix}
+	\rho^{\spinup \spinup} & \rho^{\spinup \spindown} \\ \rho^{\spindown \spinup} & \rho^{\spindown \spindown}
+\end{pmatrix}
+\]
+}
+\addtocounter{footnote}{-1}
+
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Representability for CSDFT, case $N \ge 12$}
+
+\red{Representability for CSDFT, for $N \ge 12$}
+
+\begin{theorem}[DG]
+	A pair $(R, \bj)$ is pure-state representable (by a Slater determinant) whenever
+		\[
+		R \in \cJ_N, \quad
+		\dfrac{| \bj |^2}{\rho} \in L^1(\R^3), 
+		\quad \text{with} \quad
+		\text{$N \ge 12$ and the same previous mild conditions}
+	\]
+\end{theorem}
+
+\red{Remark 1}: To prove the result, we decompose $R$ into $3$ well-behaved matrices $R = R_1 + R_2 + R_3$, and we apply on each $R_k$ the Lieb and Schrader result (which holds for $N \ge 4$). Hence the result for $N \ge 3 \times 4 = 12$. \\
+~\\
+\red{Remark 2}: We believe that the result also holds for some $N < 12$ but we do not have a proof of this fact. %From the Lieb and Schrader's paper, we know that the result is false for $N = 2$.
+
+\begin{corollary}
+	A pair $(R, \bj)$ is mixed-state representable whenever
+	\[
+		R \in \cJ_N, \quad
+		\dfrac{| \bj |^2}{\rho} \in L^1(\R^3), 
+		\quad \text{with} \quad
+		\text{$N \in \N^*$ and the same previous mild conditions}
+	\]
+\end{corollary}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Final remarks}
+
+\red{Summary}: \\
+ $\bullet$ We gave necessary and sufficient conditions for pure-state $N$-representability in SDFT.\\
+ $\bullet$ We gave sufficient conditions for pure-state $N$-representability in CSDFT when $N \ge 12$.\\
+ $\bullet$ When $N =1$, there is a non-trivial interplay between the spin-density $R$ and the paramagnetic current $\bj$, namely
+ \[
+ 	\curl \left( \dfrac{\bj}{\rho} - \dfrac{\Im( \overline{\rho^{\spinup \spindown}} {\nabla \rho^{\spinup \spindown}})}{\rho \rho^{\spindown \spindown}} \right) = \bnull.
+ \]
+
+\red{Comments and future work}:
+
+$\bullet$ Our results use the so-called \blue{Lazarev-Lieb orthogonalization process}\footnotemark. In particular, we were not able to bound the \blue{kinetic energy} of the representing Slater determinants. \\
+$\bullet$ We leave the question $N < 12$ open.
+
+~\\
+\begin{center}
+\red{Thank you for your attention!}
+\end{center}
+
+\footnotetext{E.H. Lieb and O. Lazarev. Indiana Univ. Math. Jour., 2014.}
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
