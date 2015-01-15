@@ -75,6 +75,7 @@ def cost(im, gamma, eps_v, eps_h):
     J_record = []
     J = set()
     J.add(gamma[0])
+    count_path=0
     for k in range(N-1):
         J_record.append(J)
         J = dilate(J, eps_v)
@@ -91,9 +92,10 @@ def cost(im, gamma, eps_v, eps_h):
             if np.abs(im[p[0], p[1]] - im[q1[0], q1[1]]) < eps_h:
                 J_temp.add(p)
         J = J_temp
+	count_path+=len(J)
     J_record.append(J)
 
-    return len(J), J_record
+    return count_path, J_record
 
 
 def prepare_gamma(A, B, N):

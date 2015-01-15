@@ -87,11 +87,13 @@ def find_shortest_path(m, vertices):
     while cur != start and cur != -9999:
         path.append(vertices[cur])
         cur = pred[0, cur]
+    if (cur== start):
+	path.append(vertices[cur])
     path.reverse()
     return path
 
 
-def main(A=(93, 4), B=(6, 85), plots_dir=None, filename="morne_rouge.asc",
+def main(A=(10, 17), B=(91, 77), plots_dir='sd', filename="morne_rouge.asc",
         w=101, h=101, n_grid=10, thresh=0.3, rmin=8, rmax=12, eps_v=1,
         eps_h=0.1):
     """
