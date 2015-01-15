@@ -508,22 +508,8 @@ diagonales. Représentation de l'incertitude par une matrice SDP $A$ ?
 \end{align*}
 Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
 \end{frame}
-\begin{frame}
-  \frametitle{Modélisation probabiliste}
-  \begin{itemize}
-  \item Approche par intervalles néglige la compensation des erreurs
-    et est trop pessimiste : si $X_{n+1} = X_{n} + Y$,
-    $Y \sim N(0, 1)$, alors $X_{n} \sim N(0, \sqrt n)$, un intervalle
-    à $3\sigma$ donne $X_{n} \in [-3n, 3n]$
-  \item Inférence bayésienne ? J'ai une information a priori sur la
-    position du sous-marin, et je la mets à jour avec les informations
-    de bathymétrie
-  \end{itemize}
-\end{frame}
 
-\section{Conclusion}
-\subsection{Résumé}
-\subsection{Modélisation des incertitudes}
+\section{Pistes probabilistes}
 \begin{frame}
   \frametitle{Incertitudes}
 \begin{itemize}
@@ -544,9 +530,13 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
 \begin{frame}
   \frametitle{Modélisation probabiliste}
   \begin{itemize}
+  \item Approche par intervalles néglige la compensation des erreurs
+    et est trop pessimiste : si $X_{n+1} = X_{n} + Y$,
+    $Y \sim N(0, 1)$, alors $X_{n} \sim N(0, \sqrt n)$, un intervalle
+    à $3\sigma$ donne $X_{n} \in [-3n, 3n]$
   \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
     sous-marin, supposé exact.
-  \item Soit $X_{n}$ la position estimée du sous-marin. $X_{n+1}$ ?
+  \item Soit $X_{n}$ la position estimée du sous-marin. Loi de $X_{n+1}$
   \item Sans bathymétrie, on met à jour la position avec le vecteur
     vitesse $v_{n} = x_{n+1} - x_{n}$, entaché d'une erreur aléatoire
     $\varepsilon_{v}$
@@ -576,24 +566,20 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
     &= \frac 1 N P(X_{n} + v_{n} + \varepsilon = x) \; P(h(x) = h(x_{n+1}) + \tilde \varepsilon),
   \end{align*}
   où $N$ est choisi pour normaliser $X_{n+1}$.
-  \begin{itemize}
-  \item $P(h(x) = h(x_{n+1}) + \tilde \varepsilon)$ peut être calculé
-  \end{itemize}
-  
 
-  On peut donc calculer la densité de probabilité de $X_{n+1}$ en
-  fonction de $X_{n+1}$ par une translation, une convolution et une multiplication
+  On calcule $P(h(x) = h(x_{n+1}) + \tilde \varepsilon)$ (facile si
+  $\varepsilon$ est gaussienne), on calcule $P(X_{n} + v_{n} +
+  \varepsilon = x)$ (translation et convolution), on multiplie et on
+  normalise. 
 \end{frame}
 
 
+\section{Conclusion}
+
+\section{Bibliographie et ouvertures}
 \begin{frame}
-  \frametitle{Feature detection}
-  \begin{itemize}
-  \item Si une hauteur $H$ est atteinte en un unique point $(x,y)$,
-    alors $(x,y)$ permet de se recaler exactement
-  \item Idée : détecter les ``points d'intérêt'' 
-  \end{itemize}
+  \frametitle{Bibliographie}
 \end{frame}
 
-\subsection{Bibliographie}
+
 \end{document}
