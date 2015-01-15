@@ -91,21 +91,33 @@ def find_shortest_path(m, vertices):
     return path
 
 
-def main(A=(93, 4), B=(6, 85), filename="morne_rouge.asc", w=101, h=101, n_grid=10, thresh=0.3, rmin=8, rmax=12, eps_v=1, eps_h=0.1):
+def main(A=(93, 4), B=(6, 85), plots_dir=None, filename="morne_rouge.asc",
+        w=101, h=101, n_grid=10, thresh=0.3, rmin=8, rmax=12, eps_v=1,
+        eps_h=0.1):
+    """
+    """
+    depth_map = cost.load_image(filename, w, h)
 
     # compute the shortest path
-    depth_map = cost.load_image(filename, w, h)
     vertices = select_vertices(depth_map, n_grid, thresh) 
     vertices.append(A)
     vertices.append(B)
     graph = build_edges_in_graphs(vertices, rmin, rmax, depth_map, eps_v, eps_h)
-    path = find_shortest_path(graph, vertices)  
-    c, J_record = cost.cost(depth_map, path, eps_v, eps_h)
-    print "the path is ", path
-    print "the cost is ", c
+    path1 = find_shortest_path(graph, vertices)  
+    c1, J_record1 = cost.cost(depth_map, path1, eps_v, eps_h)
+    print "the optimal path is ", path1
+    print "the optimal cost is ", c1
 
-    # plot it
-    plot_sets.main(filename, w, h, N=len(path), gamma=path, eps_v=eps_v, eps_h=eps_h)
+    # compute the straight path with the same number of control points
+    #path2 = cost.prepare_gamma(np.array(A), np.array(B), len(path1))
+    path2 = cost.prepare_gamma(np.array(A), np.array(B), 6)
+    c2, J_record2 = cost.cost(depth_map, path2, eps_v, eps_h)
+    print "the baseline path is ", path2
+    print "the baseline cost is ", c2
+
+    # plot them 
+    plot_sets.main(filename, w, h, N=len(path1), gamma=path1, eps_v=eps_v, eps_h=eps_h, figures_path='%s_dijkstra' % plots_dir)
+    plot_sets.main(filename, w, h, N=len(path2), gamma=path2, eps_v=eps_v, eps_h=eps_h, figures_path='%s_baseline' % plots_dir)
 
 
 def show_points(im, points):
@@ -116,3 +128,7 @@ def show_points(im, points):
         im_to_show[p[0], p[1]] = np.nan
     plt.imshow(im_to_show, interpolation='nearest')
     plt.show()
+
+
+if __name__ == '__main__':
+    main()
