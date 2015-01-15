@@ -1,4 +1,4 @@
-\documentclass[10pt]{beamer}
+\documentclass[11pt]{beamer}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -65,20 +65,75 @@
 \section{Présentation du problème}
 \subsection{Contexte}
 \frame{
-  \frametitle{iXBlue}
+  \frametitle{Positionnement}
   \begin{itemize}
-  \item Activité principale : conception de centrales inertielles
+  \item Activité principale de iXBlue : conception de système de
+    positionnement pour le pétrolier
   \item Interféromètre à base de fibre optique : donne les
     accélérations selon les six degrés de liberté
+    \begin{center}
+    \resizebox{.3\textwidth}{!}{\includegraphics{Images/phins}}
+    \resizebox{.5\textwidth}{!}{\includegraphics{Images/interferometre}}
+  \end{center}
+  \end{itemize}
+
+}
+\frame{
+  \frametitle{Recalage}
+  \begin{itemize}
   \item Information locale soumise à dérive. Nécessité d'un recalage
     par des informations globales
   \item Sous-marin : pas possible d'utiliser un GPS
   \item Idée : mesurer le fond marin, et comparer avec des cartes bathymétriques
   \end{itemize}
+    \begin{center}
+    \resizebox{.6\textwidth}{!}{\includegraphics{Images/bathy.png}}
+  \end{center}  
 }
-\subsection{Incertitudes et ordres de grandeur}
+
+\frame{
+  \frametitle{Choix du chemin}
+  \begin{itemize}
+  \item Comment aller de $A$ en $B$ de façon précise ?
+  \item La ligne droite n'est pas forcément la meilleure
+    stratégie. DESSIN ICI
+  \end{itemize}
+}
+
+\subsection{Notre problème}
+\frame{
+  \frametitle{Notre problème}
+  \begin{center}
+    Quel est le chemin de $A$ à $B$ qui minimise l'incertitude en
+    $B$ ?
+  \end{center}
+  \begin{itemize}
+  \item Choix du modèle d'incertitudes
+  \item Détermination d'une fonction coût
+  \item Optimisation de chemin
+  \end{itemize}
+}
+
 \section{Modélisation et algorithmes de recalage}
 \subsection{Modélisation des incertitudes}
+\begin{frame}
+  \frametitle{Incertitudes}
+\begin{itemize}
+\item Sources d'incertitude : précision de l'accéléromètre, erreurs
+  d'intégration (fréquence finie), erreur numérique (stockage en
+  virgule flottante)
+\item Dérive de l'estimation de position
+\item Modélisation délicate
+\item Si on fait une erreur initiale sur l'accélération, dérive en
+  $t^{2}$
+\item Si on fait une erreur initiale sur la vitesse, dérive en
+  $t^{2}$
+\item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
+  ? $t^{3/2}$ ? $t^{5/2}$ ?
+\item Hors du cadre de l'étude
+\item Modèles ad hoc
+\end{itemize}
+\end{frame}
 \subsection{Approche par intervalles}
 \subsection{Algorithme de recalage par boites}
 Schéma avec trois points
@@ -89,24 +144,24 @@ Example avec les trucs blancs
 \subsection{Dijkstra}
 \subsection{Continu}
 \section{Future research}
-Matrices
+Ellipses ?
+\begin{align*}
+  \min \sigma_{x}(1) + \sigma_{y}(1)\\
+  \sigma_{x}' &= a - b \sigma_{x} (\partial_{x} h)^{2}\\
+  \sigma_{x}' &= a - b \sigma_{x} (\partial_{x} h)^{2}
+\end{align*}
+
+
+Modèle isotrope ?
+
+Modèle continu ?
+\begin{align*}
+  c(\gamma) = \int a |\gamma'^{2}| + \nabla h \cdot \gamma'
+\end{align*}
+
 
 Probas ? Bayésien ?
 
 Feature detection ?
 \section{Conclusion}
-
-\subsection{Context}
-\frame{
-  \frametitle{Physical context}
-  \begin{itemize}
-  \item Matter at the atomic level is described by quantum mechanics
-  \item Main equation : time-independent Schrödinger equation $$H \psi
-    = E \psi$$ for the electronic wavefunction $\psi$
-  \item Eigenvalue equation for the self-adjoint operator $H$ on a
-    Hilbert space $\mathcal H$
-  \item For $N$ electrons, $\psi \in \mathcal H$ is a function of $3N$
-    variables
-  \end{itemize}
-}
 \end{document}
