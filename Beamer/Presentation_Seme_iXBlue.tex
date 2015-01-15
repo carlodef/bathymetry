@@ -210,24 +210,56 @@ Example avec les trucs blancs
 \subsection{Dijkstra}
 \subsection{Continu}
 \section{Future research}
-Ellipses ?
+\begin{frame}
+  \frametitle{Modèle simpliste}
+Modèle plus simple ?
 \begin{align*}
-  \min \sigma_{x}(1) + \sigma_{y}(1)\\
-  \sigma_{x}' &= a - b \sigma_{x} (\partial_{x} h)^{2}\\
-  \sigma_{x}' &= a - b \sigma_{x} (\partial_{x} h)^{2}
+  \min_{\gamma(0) = A, \gamma(1) = B} \int a |\gamma'|^{2} + b |\nabla
+  h \cdot \gamma'|^{2}
+\end{align*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Un modèle un peu plus complexe}
+Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
+$\sigma_{y}$ :
+\begin{align*}
+  \min_{\gamma(0) = 1, \gamma(1) = B} & \hspace{.5cm}\sigma_{x}(1) + \sigma_{y}(1)\\
+  \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
+  \dot \sigma_{y} &= a - b \sigma_{y} (\partial_{y} h(\gamma(t)))^{2}.
 \end{align*}
 
+Sous la forme générale d'un contrôle optimal.
 
-Modèle isotrope ?
-
-Modèle continu ?
+Problème : modèle non isotrope, problèmes sur les trajectoires
+diagonales. Représentation de l'incertitude par une matrice SDP $A$ ?
 \begin{align*}
-  c(\gamma) = \int a |\gamma'^{2}| + \nabla h \cdot \gamma'
+  \dot A = a A - b (A \nabla h \nabla h^{T} + \nabla h \nabla h^{T} A).
 \end{align*}
-
-
-Probas ? Bayésien ?
-
+Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
+\end{frame}
+\begin{frame}
+  \frametitle{Modélisation probabiliste}
+  \begin{itemize}
+  \item Approche par intervalles néglige la compensation des erreurs
+    et est trop pessimiste : si $X_{n+1} = X_{n} + Y$,
+    $Y \sim N(0, 1)$, alors $X_{n} \sim N(0, \sqrt n)$, un intervalle
+    à $3\sigma$ donne $X_{n} \in [-3n, 3n]$
+  \item Inférence bayésienne ? J'ai une information a priori sur la
+    position du sous-marin, et je la mets à jour avec les informations
+    de bathymétrie
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Feature detection}
+  \begin{itemize}
+  \item Si une hauteur $H$ est atteinte en un unique point $(x,y)$,
+    alors $(x,y)$ permet de se recaler exactement
+  \item Idée : détecter les ``points d'intérêt'' 
+  \end{itemize}
+\end{frame}
 Feature detection ?
+
+
 \section{Conclusion}
 \end{document}
