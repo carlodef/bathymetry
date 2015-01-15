@@ -422,34 +422,11 @@ Put pictures here
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Algorithme de recalage par boites}
-Schéma avec trois points
-
-Example avec les trucs blancs
 \section{Optimisation de trajectoire}
 \subsection{Gloutonne}
 \subsection{Dijkstra}
-\subsection{Continu}
-\section{Future research}
-\subsection{Modélisation des incertitudes}
-\begin{frame}
-  \frametitle{Incertitudes}
-\begin{itemize}
-\item Sources d'incertitude : précision de l'accéléromètre, erreurs
-  d'intégration (fréquence finie), erreur numérique (stockage en
-  virgule flottante)
-\item Dérive de l'estimation de position
-\item Modélisation délicate
-\item Si on fait une erreur initiale sur l'accélération, dérive en
-  $t^{2}$
-\item Si on fait une erreur initiale sur la vitesse, dérive en
-  $t^{2}$
-\item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
-  ? $t^{3/2}$ ? $t^{5/2}$ ?
-\item Hors du cadre de l'étude
-\item Modèles ad hoc
-\end{itemize}
-\end{frame}
-
+\section{Pistes continues}
+\subsection{Modèle simple}
 \begin{frame}
   \frametitle{Modèle simpliste}
 Modèle plus simple ?
@@ -458,7 +435,7 @@ Modèle plus simple ?
   h \cdot \gamma'|^{2}
 \end{align*}
 \end{frame}
-
+\subsection{Modèle plus compliqué}
 \begin{frame}
   \frametitle{Un modèle un peu plus complexe}
 Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
@@ -490,6 +467,28 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
     de bathymétrie
   \end{itemize}
 \end{frame}
+
+\section{Conclusion}
+\subsection{Résumé}
+\subsection{Modélisation des incertitudes}
+\begin{frame}
+  \frametitle{Incertitudes}
+\begin{itemize}
+\item Sources d'incertitude : précision de l'accéléromètre, erreurs
+  d'intégration (fréquence finie), erreur numérique (stockage en
+  virgule flottante)
+\item Dérive de l'estimation de position
+\item Modélisation délicate
+\item Si on fait une erreur initiale sur l'accélération, dérive en
+  $t^{2}$
+\item Si on fait une erreur initiale sur la vitesse, dérive en
+  $t^{2}$
+\item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
+  ? $t^{3/2}$ ? $t^{5/2}$ ?
+\item Hors du cadre de l'étude
+\item Modèles ad hoc
+\end{itemize}
+\end{frame}
 \begin{frame}
   \frametitle{Feature detection}
   \begin{itemize}
@@ -500,6 +499,5 @@ Problème : $A$ ne reste pas forcément SDP ! Quelle équation pour $A$ ?
 \end{frame}
 Feature detection ?
 
-
-\section{Conclusion}
+\subsection{Bibliographie}
 \end{document}
