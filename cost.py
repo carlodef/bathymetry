@@ -91,6 +91,7 @@ def cost(im, gamma, eps_v, eps_h):
             if np.abs(im[p[0], p[1]] - im[q1[0], q1[1]]) < eps_h:
                 J_temp.add(p)
         J = J_temp
+    J_record.append(J)
 
     return len(J), J_record
 
@@ -112,6 +113,11 @@ def prepare_gamma(A, B, N):
         p = np.round(p).astype(int)
         gamma_0.append((p[0], p[1]))
     return gamma_0
+
+
+def cost_straight_path(im, A, B, eps_v, eps_h):
+    g = prepare_gamma(A, B, 1)
+    return cost(im, g, eps_v, eps_h)
 
 
 def main(N=12):
