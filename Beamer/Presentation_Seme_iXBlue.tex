@@ -272,78 +272,16 @@
     Quel est le chemin de $A$ à $B$ qui minimise l'incertitude en
     $B$ ?
   \end{center}
-  \begin{itemize}
-  \item Choix du modèle d'incertitudes
-  \item Détermination d'une fonction coût
+
+  Notre approche :
+  \begin{enumerate}
+  \item Définition des incertitudes
+  \item Choix d'une fonction coût
   \item Optimisation de chemin
-  \end{itemize}
+  \end{enumerate}
 }
 
-\section{Modélisation et algorithmes de recalage}
-\subsection{Approche par intervalles}
-
-\begin{frame}
-
-\frametitle{Enoncé du problème sous forme continue}
-
-On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
-~\\
-Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
-\[
-	\begin{array}{ll}
-		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
-			& \gamma(0) = A, \\
-			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
-			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
-			\end{array}
-\]
-L'incertitude de $\gamma_0$ est
-\[
-	c(\gamma_0) = \left| \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\} \right|.
-\]
-Le (pseudo)-problème est 
-\[
-	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
-\]
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-
-\frametitle{Variantes et énoncé sous forme discrète}
-
-
-\textcolor{red}{Variantes :}
-\begin{itemize}
-	\item Le temps final $T$ peut-être libre,
-	\item On peut vouloir minimiser \textcolor{red}{l'incertitude globale}, au lieu de l'incertitude finale,
-	\item On peut vouloir rajouter des contraintes sur $\gamma_0$, par exemple
-	\[
-		\forall \ 0 \le t \le T, \quad \left\| \gamma'(t) \right\|_\infty \in [v_{\rm min}, v_{\rm max}].
-	\]
-\end{itemize}
-
-\textcolor{red}{En pratique, toutes les données sont discrètes :}
-\begin{itemize}
-	\item Le sous-marin réel prend des mesures avec une certaine fréquence (1Hz, ici, 0.1 Hz)
-	\item La carte est "pixellisée" (1 pixel = 1 mètre)
-\end{itemize}
-
-\begin{center}
-\textcolor{red}{On va chercher des stratégies d'optimisation pour des problèmes discrets.}
-\end{center}
-
-\end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Algorithme de recalage par boites}
-
+\section{Algorithme  de recalage}
 \begin{frame}
 
 \frametitle{Algorithme de recalage}
@@ -579,9 +517,69 @@ RESULTATS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
 \section{Pistes continues}
+\subsection{Variationnel}
+
+\begin{frame}
+
+\frametitle{Enoncé du problème sous forme continue}
+
+On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
+~\\
+Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
+\[
+	\begin{array}{ll}
+		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
+			& \gamma(0) = A, \\
+			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
+			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
+			\end{array}
+\]
+L'incertitude de $\gamma_0$ est
+\[
+	c(\gamma_0) = \left| \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\} \right|.
+\]
+Le (pseudo)-problème est 
+\[
+	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \begin{frame}
+
+% \frametitle{Variantes et énoncé sous forme discrète}
+
+
+% \textcolor{red}{Variantes :}
+% \begin{itemize}
+% 	\item Le temps final $T$ peut-être libre,
+% 	\item On peut vouloir minimiser \textcolor{red}{l'incertitude globale}, au lieu de l'incertitude finale,
+% 	\item On peut vouloir rajouter des contraintes sur $\gamma_0$, par exemple
+% 	\[
+% 		\forall \ 0 \le t \le T, \quad \left\| \gamma'(t) \right\|_\infty \in [v_{\rm min}, v_{\rm max}].
+% 	\]
+% \end{itemize}
+
+% \textcolor{red}{En pratique, toutes les données sont discrètes :}
+% \begin{itemize}
+% 	\item Le sous-marin réel prend des mesures avec une certaine fréquence (1Hz, ici, 0.1 Hz)
+% 	\item La carte est "pixellisée" (1 pixel = 1 mètre)
+% \end{itemize}
+
+% \begin{center}
+% \textcolor{red}{On va chercher des stratégies d'optimisation pour des problèmes discrets.}
+% \end{center}
+
+% \end{frame}
+
+
 \subsection{Modèle simple}
 \begin{frame}
-  \frametitle{Modèle simpliste}
+  \frametitle{Modèle jouet}
 Modèle plus simple ?
 \begin{align*}
   \min_{\gamma(0) = A, \gamma(1) = B} \int a |\gamma'|^{2} + b |\nabla
@@ -603,6 +601,8 @@ Sous la forme générale d'un contrôle optimal.
 
 Problème : modèle non isotrope, problèmes sur les trajectoires
 diagonales. Représentation de l'incertitude par une matrice SDP $A$ ?
+
+TODO $G = h h^{T}$, sqrt
 \begin{align*}
   \dot A = a A - b (A \nabla h \nabla h^{T} + \nabla h \nabla h^{T} A).
 \end{align*}
