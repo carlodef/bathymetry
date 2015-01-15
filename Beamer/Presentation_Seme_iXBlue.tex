@@ -533,7 +533,7 @@ Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on n
 			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
 			\end{array}
 \]
-L'incertitude de $\gamma_0$ est
+L'incertitude de $\gamma_0$ (fonction coût) est
 \[
 	c(\gamma_0) = \text{Vol} \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\}.
 \]
@@ -582,17 +582,25 @@ Problème trop difficile : simplifications de $c(\gamma_{0})$?
   \frametitle{Modèle jouet}
   On cherche à aller sur des zones de grande pente:
   \begin{align*}
-    c(\gamma) = \int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
+    c(\gamma) = -\int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
   \end{align*}
 
-  (très) mal posé : régularisation par la distance totale ?
+  Mal posé (les suites minimisantes se localisent sur les maxima de
+  $\nabla h$) : régularisation ?
   
 \begin{align*}
-  c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} + b |\nabla
+  c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
   h(\gamma(t))|^{2} dt
 \end{align*}
 
-Étude théorique ? Méthodes numériques ?
+Bien posé ? Minimiseurs ? Comment prendre en compte l'heuristique que
+$\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
+
+% \begin{align*}
+%   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
+%   h(\gamma(t)) \cdot \gamma'(t)| dt
+% \end{align*}
+
 \end{frame}
 \begin{frame}
   \frametitle{Un modèle un peu plus complexe}
@@ -647,10 +655,10 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
     $X_{n+1}$ ?
   \item Sans bathymétrie, on met à jour la position avec le vecteur
-    vitesse $v_{n} = x_{n+1} - x_{n}$, entaché d'une erreur aléatoire
-    $\varepsilon_{v}$
+    vitesse $v_{n} = x_{n+1} - x_{n}$, entaché (pour simplifier) d'une erreur aléatoire
+    $\varepsilon_{v} \sim N(0, \sigma_{v})$
   \item La bathymétrie nous donne $h(X_{n+1}) = h(x_{n+1}) +
-    \varepsilon_{h}$
+    \varepsilon_{h}$, avec une erreur $\varepsilon_{h} \sim N(0, \sigma_{h})$
   \end{itemize}
 
   \begin{center}
@@ -679,7 +687,8 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   On calcule $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (facile si
   $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
   \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
-  normalise. 
+  normalise. En théorie bien plus précis que l'approche par boites,
+  mais quel traitement des incertitudes de vitesse ?
 \end{frame}
 
 
