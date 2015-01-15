@@ -116,8 +116,8 @@ def main(A=(93, 4), B=(6, 85), plots_dir=None, filename="morne_rouge.asc",
     print "the baseline cost is ", c2
 
     # plot them 
-    #plot_sets.main(filename, w, h, N=len(path1), gamma=path1, eps_v=eps_v, eps_h=eps_h, figures_path=plots_dir)
-    plot_sets.main(filename, w, h, N=len(path2), gamma=path2, eps_v=eps_v, eps_h=eps_h, figures_path=plots_dir)
+    plot_sets.main(filename, w, h, N=len(path1), gamma=path1, eps_v=eps_v, eps_h=eps_h, figures_path='%s_dijkstra' % plots_dir)
+    plot_sets.main(filename, w, h, N=len(path2), gamma=path2, eps_v=eps_v, eps_h=eps_h, figures_path='%s_baseline' % plots_dir)
 
 
 def show_points(im, points):

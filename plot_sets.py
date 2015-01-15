@@ -52,7 +52,7 @@ def main(filename='morne_rouge.asc', W=101, H=101, N=30, gamma=None,
     # First set up the figure, the axis, and the plot element we want to animate
     fig = plt.figure()
     ax = plt.axes(xlim=(0, W-1), ylim=(0, H-1))
-    pathplot = ax.plot([], [], '-x')[0]
+    pathplot = ax.plot([], [], '-xk', linewidth=4)[0]
     im = plt.imshow(depth_map, interpolation='nearest')
 
     if figures_path is not None:
