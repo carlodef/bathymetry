@@ -618,16 +618,137 @@ Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : tro
 \item Coût $c(P,Q)=c(\{P,Q\})$ pour tout $Q\in E_P$.
 \end{itemize}
 \end{frame}
+
+
+
+% \begin{frame}[Résultats]
+%   \frametitle{Résultats}
+% \only<1>{\begin{tabular}{cc}
+% \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_000.png} &
+% \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
+% %cost=91&cost=\\
+% &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
+% %&cost=26\\
+% \end{tabular}
+% }
+% %\only<2>{\begin{tabular}{cc}
+% %\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_005.png} &
+% %\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_005.png} \\
+% %cost=91&cost=\\
+% %&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_005.png} \\
+% %&cost=26\\
+% %\end{tabular}
+% %}
+% %\only<3>{\begin{tabular}{cc}
+% %\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
+% %\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_010.png}\\
+% %cost=91&cost=\\
+% %&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_010.png}  \\
+% %&cost=26\\
+% %\end{tabular}
+% %}
+% \only<2>{\begin{tabular}{cc}
+% \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
+% \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} \\
+% %cost=91&cost=\\
+% &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
+% %&cost=26\\
+% \end{tabular}
+% }
+% \end{frame}
+
+
+
+
+
+% \begin{frame}[Résultats]
+%   \frametitle{Résultats}
+% \only<1>{
+%   \begin{center}
+%   \begin{tikzpicture}
+%     % \draw (0,0) rectangle (10,8);
+%     \node at (6,3.5) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}};
+%     \node at (0,3.5) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}};
+% \end{tikzpicture}
+% % \includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}
+% %   \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}
+% %&cost=26\\
+    
+%   \end{center}
+% }
+% \only<2>{
+%   \begin{center}
+%   \begin{tikzpicture}
+%     % \draw (0,0) rectangle (10,8);
+%     \node at (6,3.5) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+%     \node at (0,3.5) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+% \end{tikzpicture}
+% % \includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}
+% %   \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}
+% %&cost=26\\
+    
+%   \end{center}
+% }
+% \end{frame}
+
+
+
+
+
+
+
+
+
+
 \begin{frame}[Résultats]
   \frametitle{Résultats}
-\only<1>{\begin{tabular}{cc}
-\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_000.png} &
-\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
-%cost=91&cost=\\
-&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
+  \begin{figure}
+  \begin{center}
+  \begin{tikzpicture}
+     % \draw (0,0) rectangle (10,8);
+    \only<1> {
+      \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}};
+      \node at (2,4)
+      {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}};
+      \node at (2,1.5) {Glouton};
+      \node at (7.5,1.5) {Dijkstra};
+    }
+    \only<2> {
+      \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+      \node at (2,4) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+      \node at (2,1.5) {Glouton};
+      \node at (7.5,1.5) {Dijkstra};
+    }
+\end{tikzpicture}
+  \end{center}
+  \end{figure}
+\end{frame}
+%\only<2>{
+%  \begin{center}
+%  \begin{tikzpicture}
+    % \draw (0,0) rectangle (10,8);
+%    \node at (6,3.5) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+%    \node at (0,3.5) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+%\end{tikzpicture}
+% \includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}
+%   \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}
 %&cost=26\\
-\end{tabular}
-}
+    
+%  \end{center}
+%}
+
+
+
+
+
+
+
+
+
+
+
+
+
 %\only<2>{\begin{tabular}{cc}
 %\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_005.png} &
 %\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_005.png} \\
@@ -644,15 +765,12 @@ Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : tro
 %&cost=26\\
 %\end{tabular}
 %}
-\only<2>{\begin{tabular}{cc}
-\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
-\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} \\
-%cost=91&cost=\\
-&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
-%&cost=26\\
-\end{tabular}
-}
-\end{frame}
+% \only<2>{\includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}
+% %cost=91&cost=\\
+% \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}
+% %&cost=26\\
+% }
+
 \section{Pistes continues}
 
 
