@@ -107,7 +107,7 @@
 \frametitle{Présentation du problème}
 
 
-\textcolor{red}{Sous-Marin parfait} : 
+\textcolor{red}{Sous-marin parfait} : 
 \begin{itemize}
 	\item connait parfaitement la trajectoire de $A$ à $B$.
 	\item calcule parfaitement $(v_x(t), v_y(t), h(t))$.
@@ -176,7 +176,7 @@
 \frametitle{Présentation du problème}
 
 
-\textcolor{red}{Sous-Marin réel} : 
+\textcolor{red}{Sous-marin réel} : (\textbf{va suivre la même trajectoire})
 \begin{itemize}
 	\item connait parfaitement $A$, et la carte de fond.
 	\item Il mesure $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
@@ -274,7 +274,6 @@
 %   \end{itemize}
 % }
 
-\subsection{Notre problème}
 \frame{
   \frametitle{Notre problème}
   
@@ -290,6 +289,33 @@
   \item \textcolor{blue}{Optimisation} de chemin
   \end{enumerate}
 }
+
+\begin{frame}
+
+\frametitle{Enoncé du problème sous forme continue}
+
+% On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
+% ~\\
+Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
+\[
+	\begin{array}{ll}
+		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
+			& \gamma(0) = A, \\
+			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
+			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
+			\end{array}
+\]
+L'incertitude de $\gamma_0$ (fonction coût) est
+\[
+	c(\gamma_0) = \text{Vol} \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\}.
+\]
+On cherche alors
+\[
+	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
+\]
+
+\end{frame}
+
 
 \section{Algorithme  de recalage}
 \begin{frame}
@@ -428,8 +454,8 @@
 \frametitle{Stratégie gloutonne}
 
 
-Notre premier algorithme glouton donne une \textcolor{red}{bonne trajectoire} $\gamma_0$.\\
-~\\
+% Notre premier algorithme glouton donne une \textcolor{red}{bonne trajectoire} $\gamma_0$.\\
+% ~\\
 \textcolor{red}{Remarque :} Il faut trouver des \textcolor{blue}{forts gradients}, qui sont successivement "\textcolor{blue}{orthogonaux}" !\\
 
 
@@ -514,12 +540,6 @@ Les constantes $r_{\rm min}$ et $r_{\rm max}$ prennent en compte la vitesse mini
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}
-
-\frametitle{Algorithme glouton}
-
-RESULTATS
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -557,7 +577,7 @@ On peut donc définir un nouvel algorithme\\
 \end{itemize}
 
 \vfill
- \textcolor{red} {\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax}
+ % \textcolor{red} {\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax}
 Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : trop lent pour des cartes de taille elevée.
 \end{frame}
 \subsection{Résultats}
@@ -635,33 +655,6 @@ Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : tro
 \end{frame}
 \section{Pistes continues}
 
-\begin{frame}
-
-\frametitle{Enoncé du problème sous forme continue}
-
-% On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
-% ~\\
-Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
-\[
-	\begin{array}{ll}
-		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
-			& \gamma(0) = A, \\
-			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
-			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
-			\end{array}
-\]
-L'incertitude de $\gamma_0$ (fonction coût) est
-\[
-	c(\gamma_0) = \text{Vol} \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\}.
-\]
-On cherche alors
-\[
-	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
-\]
-
-Problème trop difficile : simplifications de $c(\gamma_{0})$?
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
