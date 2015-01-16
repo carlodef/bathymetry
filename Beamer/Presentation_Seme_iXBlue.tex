@@ -619,6 +619,7 @@ Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : tro
 \end{itemize}
 \end{frame}
 \begin{frame}[Résultats]
+  \frametitle{Résultats}
 \only<1>{\begin{tabular}{cc}
 \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_000.png} &
 \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
@@ -726,7 +727,7 @@ contrôle optimal. Problème : modèle non isotrope (trajectoires
 diagonales~?)
 
 Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
-on pose $G = h h^{T}$,
+on pose $G = \nabla h \nabla h^{T}$,
 \begin{align*}
   \dot A = a A - b \sqrt G A \sqrt G.
 \end{align*}
@@ -747,7 +748,7 @@ pas forcément SDP. Y a-t-il une bonne généralisation~?
 \item Si on fait une erreur initiale sur l'accélération, dérive en
   $t^{2}$
 \item Si on fait une erreur initiale sur la vitesse, dérive en
-  $t^{2}$
+  $t$
 \item Compensation des erreurs~? Marche aléatoire, dérive en $\sqrt t$
  ~? $t^{3/2}$~? $t^{5/2}$~?
 \item Non trivial en pratique
