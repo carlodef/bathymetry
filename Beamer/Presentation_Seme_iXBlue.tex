@@ -97,7 +97,7 @@
   
   \textcolor{red}{Question :} \\
   \begin{center}
-  	Quelles sont les trajectoires qui permettent un recalage précis ?
+  	Quelles sont les trajectoires qui permettent un recalage précis~ ?
 	\end{center}
 }
 
@@ -212,7 +212,7 @@
 	\only <4> {
 		\filldraw[fill = blue!20, draw = blue] (6, 2.8) circle (0.3);
 		\draw[line width=1]  (1, 3.5) -- (4, 1.5) -- (6, 2.8);
-		\node[blue] at (6, 3.3) {B ?};
+		\node[blue] at (6, 3.3) {B~ ?};
 	}
 	
 	% Obstacle
@@ -268,7 +268,7 @@
 % \frame{
 %   \frametitle{Choix du chemin}
 %   \begin{itemize}
-%   \item Comment aller de $A$ en $B$ de façon précise ?
+%   \item Comment aller de $A$ en $B$ de façon précise~ ?
 %   \item La ligne droite n'est pas forcément la meilleure
 %     stratégie. DESSIN ICI
 %   \end{itemize}
@@ -280,7 +280,7 @@
   
   \textcolor{red}{Problème :}
   \begin{center}
-    \textcolor{blue}{ Quel est le chemin de $A$ à $B$ qui minimise "l'incertitude" en $B$ ?}
+    \textcolor{blue}{ Quel est le chemin de $A$ à $B$ qui minimise "l'incertitude" en $B$~ ?}
   \end{center}
 
   \textcolor{red}{Notre approche :}
@@ -703,15 +703,15 @@ Problème trop difficile : simplifications de $c(\gamma_{0})$?
   \end{align*}
 
   Mal posé (les suites minimisantes se localisent sur les maxima de
-  $\nabla h$) : régularisation ?
+  $\nabla h$) : régularisation~ ?
   
 \begin{align*}
   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
   h(\gamma(t))|^{2} dt
 \end{align*}
 
-Bien posé ? Minimiseurs ? Comment prendre en compte l'heuristique que
-$\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
+Bien posé~ ? Minimiseurs~ ? Comment prendre en compte l'heuristique que
+$\gamma$ doit alterner les directions de $\nabla h$ pour se localiser~ ?
 
 % \begin{align*}
 %   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
@@ -731,7 +731,7 @@ $\sigma_{y}$ :
 Amortissement exponentiel vers un point d'équilibre $\sigma_{x} \sim
 1/(\partial_{y} h(\gamma(t)))^{2}$. Sous la forme générale d'un
 contrôle optimal. Problème : modèle non isotrope (trajectoires
-diagonales ?)
+diagonales~ ?)
 
 Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
 on pose $G = h h^{T}$,
@@ -740,7 +740,7 @@ on pose $G = h h^{T}$,
 \end{align*}
 On modifie les incertitudes dans la direction $\nabla h$, on n'y
 touche pas dans $\nabla h^{\perp}$. Problème : $A$ ne reste
-pas forcément SDP. Y a-t-il une bonne généralisation ?
+pas forcément SDP. Y a-t-il une bonne généralisation~ ?
 \end{frame}
 
 \section{Pistes probabilistes}
@@ -756,8 +756,8 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   $t^{2}$
 \item Si on fait une erreur initiale sur la vitesse, dérive en
   $t^{2}$
-\item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
-  ? $t^{3/2}$ ? $t^{5/2}$ ?
+\item Compensation des erreurs~ ? Marche aléatoire, dérive en $\sqrt t$
+ ~ ? $t^{3/2}$~ ? $t^{5/2}$~ ?
 \item Non trivial en pratique
 \end{itemize}
 \end{frame}
@@ -766,11 +766,11 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \frametitle{Modélisation probabiliste}
   \begin{itemize}
   \item Une approche par intervalles néglige la compensation des erreurs
-    et est trop pessimiste. Modèle probabiliste ?
+    et est trop pessimiste. Modèle probabiliste~ ?
   \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
     sous-marin, supposé exact.
   \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
-    $X_{n+1}$ ?
+    $X_{n+1}$~ ?
   \item Sans bathymétrie, on met à jour la position avec le vecteur
     vitesse $v_{n} = x_{n+1} - x_{n}$, entaché (pour simplifier) d'une erreur aléatoire
     $\varepsilon_{v} \sim N(0, \sigma_{v})$
@@ -805,8 +805,8 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
   \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
   normalise. En théorie bien plus précis que l'approche par boites,
-  mais quel traitement des incertitudes de vitesse ? Lien avec les
-  filtres de Kalman ?
+  mais quel traitement des incertitudes de vitesse~ ? Lien avec les
+  filtres de Kalman~ ?
 \end{frame}
 
 
