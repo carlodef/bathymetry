@@ -528,7 +528,7 @@ RESULTATS
 
 \frametitle{Stratégie globale}
 La stratégie gloutonne est locale: on cherche un algorithme \textcolor{blue}{global}.\\
-On considère les pixels de la carte comme des noeuds et on calcule le cout de passage de l'un à l'autre.
+On considère les pixels de la carte comme des noeuds et on calcule le coût de passage de l'un à l'autre.
 \begin{center}
 \only<1>{\includegraphics[width=.8\textwidth]{Images/morne_rouge_grid.png}}
 \only<2>{\includegraphics[width=.8\textwidth]{Images/morne_rouge_grid_only.png}}
@@ -544,9 +544,8 @@ En pratique, on définit
 
 \begin{frame}
 \frametitle{Algorithme global}
-On peut donc définir un nouveau\\
+On peut donc définir un nouvel algorithme\\
 ~\\
-\textcolor{red}{ALGORITHME :}\\
 \begin{itemize}
 \item Pour tout $(P, P')$ tels que
   \[
@@ -554,12 +553,12 @@ On peut donc définir un nouveau\\
   \]
   on calcule $c(P,P')$.
 \item On construit la \textcolor{blue}{matrice de connectivité}.
-\item On applique l'algorithme de Dijkstra et on obtient la \textcolor{blue}{trajectoire du cout minimal} entre A et B.
+\item On applique l'algorithme de Dijkstra et on obtient la \textcolor{blue}{trajectoire du coût minimal} entre A et B.
 \end{itemize}
 
 \vfill
  \textcolor{red} {\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax}
-Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du cout de l'algorithme : trop lent pour des cartes de taille elevée.
+Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : trop lent pour des cartes de taille elevée.
 \end{frame}
 \subsection{Résultats}
 \begin{frame}{Autre version}
