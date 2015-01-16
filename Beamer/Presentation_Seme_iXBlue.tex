@@ -58,38 +58,47 @@
 
 \frame{\tableofcontents}
 \AtBeginSection[]{
-  \begin{frame}{Summary}
+  \begin{frame}{Sommaire}
     \tableofcontents[currentsection, hideothersubsections]
   \end{frame}
 }
 
 \section{Présentation du problème}
-\subsection{Contexte}
-\frame{
-  \frametitle{Positionnement}
-  \begin{itemize}
-  \item Activité principale de iXBlue : conception de système de
-    positionnement pour le pétrolier
-  \item Interféromètre à base de fibre optique : donne les
-    accélérations selon les six degrés de liberté
-    \begin{center}
-    \resizebox{.3\textwidth}{!}{\includegraphics{Images/phins}}
-    \resizebox{.5\textwidth}{!}{\includegraphics{Images/interferometre}}
-  \end{center}
-  \end{itemize}
+%\subsection{Contexte}
+%\frame{
+%  \frametitle{Positionnement}
+%  \begin{itemize}
+%  \item Activité principale de iXBlue : conception de système de
+%    positionnement pour le pétrolier
+%  \item Interféromètre à base de fibre optique : donne les
+%    accélérations selon les six degrés de liberté
+%    \begin{center}
+%    \resizebox{.3\textwidth}{!}{\includegraphics{Images/phins}}
+%    \resizebox{.5\textwidth}{!}{\includegraphics{Images/interferometre}}
+%  \end{center}
+%  \end{itemize}
+%
+%}
 
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \frame{
-  \frametitle{Recalage}
-  \begin{itemize}
-  \item Information locale soumise à dérive. Nécessité d'un recalage
-    par des informations globales
-  \item Sous-marin : pas possible d'utiliser un GPS
-  \item Idée : mesurer le fond marin, et comparer avec des cartes bathymétriques
-  \end{itemize}
-    \begin{center}
-    \resizebox{.6\textwidth}{!}{\includegraphics{Images/bathy.png}}
-  \end{center}  
+  \frametitle{Problématique du sous-marin}
+  
+
+ 
+  $\bullet$ Un \textcolor{red}{sous-marin} se déplace à \textcolor{blue}{profondeur constante} (pas de GPS).\\
+  $\bullet$ \textcolor{red}{Problème :} A cause des imprécisions de ses appareils de mesure, et de la dérive, il peut se perdre.\\
+  $\bullet$ \textcolor{red}{Idée} : il peut se \textcolor{red}{recaler} en mesurant le fond marin, et en comparant avec des cartes bathymétriques
+  
+\begin{center}
+    \resizebox{.35\textwidth}{!}{\includegraphics{Images/bathy.png}}
+  \end{center}
+  
+  \textcolor{red}{Question :} \\
+  \begin{center}
+  	Quelles sont les trajectoires qui permettent un recalage précis~?
+	\end{center}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +107,7 @@
 \frametitle{Présentation du problème}
 
 
-\textcolor{red}{Sous-Marin parfait} : 
+\textcolor{red}{Sous-marin parfait} : 
 \begin{itemize}
 	\item connait parfaitement la trajectoire de $A$ à $B$.
 	\item calcule parfaitement $(v_x(t), v_y(t), h(t))$.
@@ -167,10 +176,10 @@
 \frametitle{Présentation du problème}
 
 
-\textcolor{red}{Sous-Marin réel} : 
+\textcolor{red}{Sous-marin réel} : (\textbf{va suivre la même trajectoire})
 \begin{itemize}
 	\item connait parfaitement $A$, et la carte de fond.
-	\item Il a $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
+	\item Il mesure $(\widetilde{v_x}(t), \widetilde{v_y}(t), \widetilde{h}(t)) = (v_x(t), v_y(t), h(t)) + (e_{v_x}(t), e_{v_y}(t) , e_h(t))$.
 	\item \textcolor{red}{But : estimer où est $B$ !}
 \end{itemize}
 
@@ -203,7 +212,7 @@
 	\only <4> {
 		\filldraw[fill = blue!20, draw = blue] (6, 2.8) circle (0.3);
 		\draw[line width=1]  (1, 3.5) -- (4, 1.5) -- (6, 2.8);
-		\node[blue] at (6, 3.3) {B ?};
+		\node[blue] at (6, 3.3) {B~?};
 	}
 	
 	% Obstacle
@@ -259,27 +268,54 @@
 % \frame{
 %   \frametitle{Choix du chemin}
 %   \begin{itemize}
-%   \item Comment aller de $A$ en $B$ de façon précise ?
+%   \item Comment aller de $A$ en $B$ de façon précise~?
 %   \item La ligne droite n'est pas forcément la meilleure
 %     stratégie. DESSIN ICI
 %   \end{itemize}
 % }
 
-\subsection{Notre problème}
 \frame{
   \frametitle{Notre problème}
+  
+  \textcolor{red}{Problème :}
   \begin{center}
-    Quel est le chemin de $A$ à $B$ qui minimise l'incertitude en
-    $B$ ?
+    \textcolor{blue}{ Quel est le chemin de $A$ à $B$ qui minimise "l'incertitude" en $B$~?}
   \end{center}
 
-  Notre approche :
+  \textcolor{red}{Notre approche :}
   \begin{enumerate}
-  \item Définition des incertitudes
-  \item Choix d'une fonction coût
-  \item Optimisation de chemin
+  \item Définition de la notion \textcolor{blue}{d'incertitudes}
+  \item Calcul effectif du \textcolor{blue}{coût} d'un chemin du sous-marin parfait
+  \item \textcolor{blue}{Optimisation} de chemin
   \end{enumerate}
 }
+
+\begin{frame}
+
+\frametitle{Enoncé du problème sous forme continue}
+
+% On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
+% ~\\
+Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
+\[
+	\begin{array}{ll}
+		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
+			& \gamma(0) = A, \\
+			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
+			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
+			\end{array}
+\]
+L'incertitude de $\gamma_0$ (fonction coût) est
+\[
+	c(\gamma_0) = \text{Vol} \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\}.
+\]
+On cherche alors
+\[
+	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
+\]
+
+\end{frame}
+
 
 \section{Algorithme  de recalage}
 \begin{frame}
@@ -418,8 +454,8 @@
 \frametitle{Stratégie gloutonne}
 
 
-Notre premier algorithme glouton donne une \textcolor{red}{bonne trajectoire} $\gamma_0$.\\
-~\\
+% Notre premier algorithme glouton donne une \textcolor{red}{bonne trajectoire} $\gamma_0$.\\
+% ~\\
 \textcolor{red}{Remarque :} Il faut trouver des \textcolor{blue}{forts gradients}, qui sont successivement "\textcolor{blue}{orthogonaux}" !\\
 
 
@@ -479,7 +515,7 @@ Notre premier algorithme glouton donne une \textcolor{red}{bonne trajectoire} $\
 
 On en déduit une \textcolor{blue}{stratégie gloutonne} : \\
 ~\\
-\textcolor{red}{ALGORITHME :}\\
+% \textcolor{red}{ALGORITHME :}\\
 \begin{itemize}
     \item On pose $\gamma = [A]$, et $P = A$.
     \item Tant que $P \neq B$,
@@ -492,10 +528,9 @@ On en déduit une \textcolor{blue}{stratégie gloutonne} : \\
         \]
         puis $\gamma = [\gamma, P_{\rm next}]$, et $P = P_{\rm next}$.
     \end{itemize}
-    \item RETURN $\gamma$
 \end{itemize}
 
-\textcolor{red}{Remark :}
+\textcolor{red}{Remarque :}
 Les constantes $r_{\rm min}$ et $r_{\rm max}$ prennent en compte la vitesse minimale et maximale du sous-marin, et la fréquence d'échantillonnage !
 
 
@@ -504,43 +539,240 @@ Les constantes $r_{\rm min}$ et $r_{\rm max}$ prennent en compte la vitesse mini
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}
-
-\frametitle{Algorithme glouton}
-
-RESULTATS
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
-\section{Pistes continues}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
 
-\frametitle{Enoncé du problème sous forme continue}
+\frametitle{Stratégie globale}
+La stratégie gloutonne est locale: on cherche un algorithme \textcolor{blue}{global}.\\
+On considère les pixels de la carte comme des noeuds et on calcule le coût de passage de l'un à l'autre.
+\begin{center}
+\only<1>{\includegraphics[width=.8\textwidth]{Images/morne_rouge_grid.png}}
+\only<2>{\includegraphics[width=.8\textwidth]{Images/morne_rouge_grid_only.png}}
+\only<3>{\includegraphics[width=.8\textwidth]{Images/network.png}}
+\end{center}
+En pratique, on définit
+\begin{equation*}
+  c(i,j) = \left( \left| \nabla H(i) \wedge \nabla H(j) \right| - \alpha \left( d(j,B) - d(i,B) \right) \right)^{-1} .
+\end{equation*}
 
-% On veut trouver la trajectoire initiale (du sous-marin parfait) qui minimise \textcolor{red}{l'incertitude} ($\sim$ "l'aire" finale). \\
-% ~\\
-Soit $\gamma_0 \in C^0( [0,T], \R^2)$ la trajectoire du sous-marin parfait, on note $\mathcal{A}_{\gamma_0}$ l'ensemble des \textcolor{red}{trajectoires admissibles}:
-\[
-	\begin{array}{ll}
-		\mathcal{A}_{\gamma_0} :=   \Big\{ &\gamma \in C^0( [0,T], \R^2), \\
-			& \gamma(0) = A, \\
-			& \forall \ 0 \le t \le T, \quad \left\|  \gamma'(t)  - \gamma_0'(t) \right\|_{\infty} \le \epsilon_v, \\
-			& \forall \ 0 \le t \le T, \quad \left| H(\gamma(t))  - H(\gamma_0(t)) \right| \le \epsilon_h. \Big\}
-			\end{array}
-\]
-L'incertitude de $\gamma_0$ (fonction coût) est
-\[
-	c(\gamma_0) = \text{Vol} \left\{ \gamma(T), \ \gamma \in \mathcal{A}_{\gamma_0} \right\}.
-\]
-On cherche alors
-\[
-	\argmin \left\{ c(\gamma_0), \ \gamma_0 \in C^0( [0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
-\]
-
-Problème trop difficile : simplifications de $c(\gamma_{0})$?
 
 \end{frame}
+
+\begin{frame}
+\frametitle{Algorithme global}
+On peut donc définir un nouvel algorithme\\
+~\\
+\begin{itemize}
+\item Pour tout $(P, P')$ tels que
+  \[
+  r_{\rm min} \le d(P, P') \le r_{\rm max}, \ d(P', B) < d(P, B),
+  \]
+  on calcule $c(P,P')$.
+\item On construit la \textcolor{blue}{matrice de coût} du graphe.
+\item On applique l'algorithme de Dijkstra et on obtient la \textcolor{blue}{trajectoire du coût minimal} entre A et B.
+\end{itemize}
+
+\vfill
+ % \textcolor{red} {\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax}
+Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : trop lent pour des cartes de taille elevée.
+\end{frame}
+\subsection{Résultats}
+\begin{frame}{Autre version}
+\begin{center}
+%\begin{tikzpicture}
+%\draw[gray] (0,0) grid[xstep=0.125,ystep=0.125] (1,1);
+%\end{tikzpicture}
+\begin{tikzpicture}[scale=0.5]
+\draw[gray] (0,0) grid[xstep=0.125,ystep=0.125] (1,1);
+%\draw[gray] (0,0) -- (1,1);
+%\draw[gray] (0,0.125) -- (0.875,1);
+%\draw[gray] (0,0.25) -- (0.75,1);
+%\draw[gray] (0,0.375) -- (0.625,1);
+%\draw[gray] (0,0.5) -- (0.5,1);
+%\draw[gray] (0,0.625) -- (0.375,1);
+%\draw[gray] (0,0.75) -- (0.25,1);
+%\draw[gray] (0,0.875) -- (0.125,1);
+%\draw[gray] (0.125,0) -- (1,0.875);
+%\draw[gray] (0.25,0) -- (1,0.75);
+%\draw[gray] (0.375,0) -- (1,0.625);
+%\draw[gray] (0.5,0) -- (1,0.5);
+%\draw[gray] (0.625,0) -- (1,0.375);
+%\draw[gray] (0.75,0) -- (1,0.25);
+%\draw[gray] (0.875,0) -- (1,0.125);
+\draw (0,0) grid (8,8);
+%\draw[|-|,>=latex] (-0.5,2) -- (-0.5,3);
+%\draw node[left] at (-0.5,2.5) {$H$};
+\draw[->,>=latex] (-0.35,0.3) -- (0.2,0.3);
+\draw node[left] at (-0.25,0.3) {$C$};
+\end{tikzpicture}
+\end{center}
+
+
+
+
+\begin{itemize}
+\item Soit $r\in (0,1)$. Dans chaque sous partie $C$ , sélectionner l'ensemble des points $P$ tels que $\|\nabla h(P)\|\geq \|\nabla h\|_{\mathit{L}^\infty(C)}(1-r)$.
+\item Coût $c(P,Q)=c(\{P,Q\})$ pour tout $Q\in E_P$.
+\end{itemize}
+\end{frame}
+
+
+
+% \begin{frame}[Résultats]
+%   \frametitle{Résultats}
+% \only<1>{\begin{tabular}{cc}
+% \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_000.png} &
+% \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
+% %cost=91&cost=\\
+% &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
+% %&cost=26\\
+% \end{tabular}
+% }
+% %\only<2>{\begin{tabular}{cc}
+% %\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_005.png} &
+% %\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_005.png} \\
+% %cost=91&cost=\\
+% %&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_005.png} \\
+% %&cost=26\\
+% %\end{tabular}
+% %}
+% %\only<3>{\begin{tabular}{cc}
+% %\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
+% %\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_010.png}\\
+% %cost=91&cost=\\
+% %&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_010.png}  \\
+% %&cost=26\\
+% %\end{tabular}
+% %}
+% \only<2>{\begin{tabular}{cc}
+% \includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
+% \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} \\
+% %cost=91&cost=\\
+% &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
+% %&cost=26\\
+% \end{tabular}
+% }
+% \end{frame}
+
+
+
+
+
+% \begin{frame}[Résultats]
+%   \frametitle{Résultats}
+% \only<1>{
+%   \begin{center}
+%   \begin{tikzpicture}
+%     % \draw (0,0) rectangle (10,8);
+%     \node at (6,3.5) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}};
+%     \node at (0,3.5) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}};
+% \end{tikzpicture}
+% % \includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}
+% %   \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}
+% %&cost=26\\
+    
+%   \end{center}
+% }
+% \only<2>{
+%   \begin{center}
+%   \begin{tikzpicture}
+%     % \draw (0,0) rectangle (10,8);
+%     \node at (6,3.5) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+%     \node at (0,3.5) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+% \end{tikzpicture}
+% % \includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}
+% %   \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}
+% %&cost=26\\
+    
+%   \end{center}
+% }
+% \end{frame}
+
+
+
+
+
+
+
+
+
+
+\begin{frame}[Résultats]
+  \frametitle{Résultats}
+  \begin{figure}
+  \begin{center}
+  \begin{tikzpicture}
+     % \draw (0,0) rectangle (10,8);
+    \only<1> {
+      \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}};
+      \node at (2,4)
+      {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}};
+      \node at (2,1.5) {Glouton};
+      \node at (7.5,1.5) {Dijkstra};
+    }
+    \only<2> {
+      \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+      \node at (2,4) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+      \node at (2,1.5) {Glouton};
+      \node at (7.5,1.5) {Dijkstra};
+    }
+\end{tikzpicture}
+  \end{center}
+  \end{figure}
+\end{frame}
+%\only<2>{
+%  \begin{center}
+%  \begin{tikzpicture}
+    % \draw (0,0) rectangle (10,8);
+%    \node at (6,3.5) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+%    \node at (0,3.5) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+%\end{tikzpicture}
+% \includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}
+%   \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}
+%&cost=26\\
+    
+%  \end{center}
+%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\only<2>{\begin{tabular}{cc}
+%\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_005.png} &
+%\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_005.png} \\
+%cost=91&cost=\\
+%&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_005.png} \\
+%&cost=26\\
+%\end{tabular}
+%}
+%\only<3>{\begin{tabular}{cc}
+%\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
+%\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_010.png}\\
+%cost=91&cost=\\
+%&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_010.png}  \\
+%&cost=26\\
+%\end{tabular}
+%}
+% \only<2>{\includegraphics[scale=0.4]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}
+% %cost=91&cost=\\
+% \includegraphics[scale=0.4]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}
+% %&cost=26\\
+% }
+
+\section{Pistes continues}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -576,21 +808,21 @@ Problème trop difficile : simplifications de $c(\gamma_{0})$?
 
 \begin{frame}
   \frametitle{Modèle jouet}
-  On cherche à aller sur des zones de \textcolor{red}{grande pente}:
+  On cherche à aller sur des zones de grande pente:
   \begin{align*}
     c(\gamma) = -\int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
   \end{align*}
 
   Mal posé (les suites minimisantes se localisent sur les maxima de
-  $\nabla h$) : régularisation ?
+  $\nabla h$) : régularisation~?
   
 \begin{align*}
   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
   h(\gamma(t))|^{2} dt
 \end{align*}
 
-Bien posé ? Minimiseurs ? Comment prendre en compte l'heuristique que
-$\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
+Bien posé~? Minimiseurs~? Comment prendre en compte l'heuristique que
+$\gamma$ doit alterner les directions de $\nabla h$ pour se localiser~?
 
 % \begin{align*}
 %   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
@@ -599,9 +831,9 @@ $\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
 
 \end{frame}
 \begin{frame}
-  \frametitle{Un modèle un peu plus complexe} Modèle
-  d'\textcolor{red}{équation différentielle} effectif pour les
-  incertitudes en $x$ et $y$ $\sigma_{x}$ et $\sigma_{y}$ :
+  \frametitle{Un modèle un peu plus complexe}
+Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
+$\sigma_{y}$ :
 \begin{align*}
   c(\gamma) &= \sigma_{x}(1) + \sigma_{y}(1), \text{ où}\\
   \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
@@ -610,33 +842,33 @@ $\gamma$ doit alterner les directions de $\nabla h$ pour se localiser ?
 Amortissement exponentiel vers un point d'équilibre $\sigma_{x} \sim
 1/(\partial_{y} h(\gamma(t)))^{2}$. Sous la forme générale d'un
 contrôle optimal. Problème : modèle non isotrope (trajectoires
-diagonales ?)
+diagonales~?)
 
-Généralisation : représenter l'incertitude par une \textcolor{red}{matrice SDP} $A$. Si
-on pose $G = h h^{T}$,
+Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
+on pose $G = \nabla h \nabla h^{T}$,
 \begin{align*}
   \dot A = a A - b \sqrt G A \sqrt G.
 \end{align*}
 On modifie les incertitudes dans la direction $\nabla h$, on n'y
 touche pas dans $\nabla h^{\perp}$. Problème : $A$ ne reste
-pas forcément SDP. Y a-t-il une bonne généralisation ?
+pas forcément SDP. Y a-t-il une bonne généralisation~?
 \end{frame}
 
 \section{Pistes probabilistes}
 \begin{frame}
-  \frametitle{Modélisation de la dérive}
+  \frametitle{Modélisation des incertitudes}
 \begin{itemize}
 \item Sources d'incertitude : précision de l'accéléromètre, erreurs
   d'intégration (fréquence finie), erreur numérique (stockage en
   virgule flottante)
-\item \textcolor{red}{Dérive} de l'estimation de position
+\item Dérive de l'estimation de position
 \item Modélisation délicate
 \item Si on fait une erreur initiale sur l'accélération, dérive en
   $t^{2}$
 \item Si on fait une erreur initiale sur la vitesse, dérive en
-  $t^{2}$
-\item Compensation des erreurs ? Marche aléatoire, dérive en $\sqrt t$
-  ? $t^{3/2}$ ? $t^{5/2}$ ?
+  $t$
+\item Compensation des erreurs~? Marche aléatoire, dérive en $\sqrt t$
+ ~? $t^{3/2}$~? $t^{5/2}$~?
 \item Non trivial en pratique
 \end{itemize}
 \end{frame}
@@ -645,11 +877,11 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \frametitle{Modélisation probabiliste}
   \begin{itemize}
   \item Une approche par intervalles néglige la compensation des erreurs
-    et est trop pessimiste. Modèle \textcolor{red}{probabiliste} ?
+    et est trop pessimiste. Modèle probabiliste~?
   \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
     sous-marin, supposé exact.
   \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
-    $X_{n+1}$ ?
+    $X_{n+1}$~?
   \item Sans bathymétrie, on met à jour la position avec le vecteur
     vitesse $v_{n} = x_{n+1} - x_{n}$, entaché (pour simplifier) d'une erreur aléatoire
     $\varepsilon_{v} \sim N(0, \sigma_{v})$
@@ -680,66 +912,93 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   \end{align*}
   où $N$ est choisi pour normaliser $X_{n+1}$.
 
-  On \textcolor{red}{évalue $h$} pour calculer $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$, on calcule $P(X_{n} + v_{n} +
-  \varepsilon_{v} = x)$ par \textcolor{red}{translation} et \textcolor{red}{convolution}, on \textcolor{red}{multiplie} et on
-  \textcolor{red}{normalise}. En théorie bien plus précis que l'approche par boites,
-  mais quel traitement des incertitudes de vitesse ?
+  On calcule $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (facile si
+  $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
+  \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
+  normalise. En théorie bien plus précis que l'approche par boites,
+  mais quel traitement des incertitudes de vitesse~? Lien avec les
+  filtres de Kalman~?
 \end{frame}
 
 
 \section{Conclusion}
+\begin{frame}
+\frametitle{Conclusion (ce qu'on a fait)}
+\begin{itemize}
+
+\item Comprendre et ``mathématiser'' le problème:
+\begin{itemize}
+\item Traduction du problème dans un langage mathématique grâce aux
+  précisions de l'encadrant.
+\item Développement d'un algorithme de recalage pour affiner l'intuition.
+\item Traduction des données physiques (vitesse, carte bathymétrique )
+  en conditions algorithmiques/mathématiques : couronne d'admissibilité,
+  choix d'une direction de fort gradient.
+\end{itemize}
+
+\item Proposition de deux algorithmes discrets testés sur les
+  cartes fournies :
+\begin{itemize}
+\item Stratégie gloutonne, locale et incrémentale, d'après les données
+  physiques (gradient, distance, vitesse).
+
+\item Stratégie globale basée sur un graphe décrivant
+  les relations entre des points d'intérêts de la carte. La
+  trajectoire de coût minimal est trouvée grâce à l'algorithme de Dijkstra.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion (pistes futures)}
+\begin{itemize}
+  \item Modélisation continue (modèle intégral, contrôle d'équations
+    différentielles)
+  \item Modélisation probabiliste (calcul de lois)
+\end{itemize}
+\end{frame}
 
 \section{Bibliographie et ouvertures}
 \begin{frame}
-%Key-words : Coverage Path Planning (CPP), Boustrophedon, Slicing
-
-\begin{itemize}
-
 
 \frametitle{Quelques pistes bibliographiques}
 
-\item{Robotique} 
 \begin{itemize}
-\item \textit{Sensor-based coverage of un-
-known environments: Incremental construction of morse
-decompositions}, E. U. Acar \& H. Choset (2002)
-\item \textit{Exploiting critical points to reduce positioning error
-  for sensor-based navigation}, E. U. Acar \& H. Choset (2002)
-\item \textit{A Survey on Coverage Path Planning for Robotics},
-  E.Galceran \& M.Carreras (2013)
-\end{itemize}
 
-\item{Bathymétrie}
-\begin{itemize}
-\item  \textit{Terrain-Relative Navigation for Autonomous Underwater Vehicles}, D. di Massa, (1997)
+\item S.Barkby, S.B. Williams O.Pizarro, M.Y. Jakuba
+  (2006). Amélioration d'une carte existante lors de la
+  navigation. Contrôle avec une méthode de SLAM et un filtre de Rao.
 
-\item \textit{.Landmark Selection for Terrain Matching.},C.F. Olson (2000)
-(Modélisation par erreur gaussienne)
+\item D.Wettergreen (2008). Repositionnement sous l'eau. Découpe du
+  volume à l'aide d'un \textit{octree}, et filtre de Kalman.
 
-\item \textit{Concurrent mapping and
-localization and map matching on autonomous underwater vehicles}, R. N. Carpenter \& M. R. Medeiros (2001)
-\item \textit{Self Consistent Bathymetric Mapping from Robotic Vehicles in the Deep Ocean}, C.N. Roman (2005)
-\item \textit{Active Localization on the Ocean Floor with Multibeam Sonar N. Fairfield}, D.Wettergreen (2008)
-\item \textit{Using Genetic Algorithms to Optimize Bathymetric Sampling
-for Predictive Model Input}, D. Manian, J. M. Kaihatu \& E. M. Zechman (2012) (algorithme génétique)
+\item E.Galceran \& M.Carreras (2013) : article de review en CPP
+  (\textit{Coverage Path Planning}). Déterminer le chemin passant par
+  les points d'un volume (une aire) tout en évitant les obstacles
+  éventuels. Algorithme de \textit{slicing}. Applications en
+  bathymétrie.
 
-
-
-\item \textit{Coverage Path Planning with Real-time Replanning and
-  Surface Reconstruction for Inspection of Three-dimensional
-  Underwater Structures using Autonomous Underwater Vehicles},
-  E. Galceran, R. Campos N.Palomeras, D. Ribas, M. Carreras \&
-  P. Ridao (2014) : Séparation des régions à forts gradient. Les
-  régions de gradient fort sont traités par un algorithme de
-  \textit{slicing} tandis que les autres régions sont traités par
-  l'algorithme de Boutrosphedon.
-\end{itemize}
-
-\item Aéronautique : positionnement d'un satelitte sur une orbite (ex: point de Lagrange)
+\item E. Galceran, R. Campos N.Palomeras, D. Ribas, M. Carreras \&
+  P. Ridao (2014). Trajectoire pour la cartographie du
+  domaine. Séparation des régions selon le module du gradient. Régions
+  de gradient fort traitées par un algorithme de \textit{slicing},
+  autres régions traitées par l'algorithme de Boutrosphedon.
 \end{itemize}
 
 \end{frame}
 
 
+\begin{frame}
+
+% \frametitle{}
+
+  \begin{center}
+    {\LARGE Merci pour votre attention !}
+    
+\vspace{2cm}
+
+    et merci à Jérémy Nicola et aux organisateurs.
+  \end{center}
+\end{frame}
 
 \end{document}
