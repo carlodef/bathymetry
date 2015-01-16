@@ -806,63 +806,75 @@ pas forcément SDP. Y a-t-il une bonne généralisation ?
   $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
   \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
   normalise. En théorie bien plus précis que l'approche par boites,
-  mais quel traitement des incertitudes de vitesse ?
+  mais quel traitement des incertitudes de vitesse ? Lien avec les
+  filtres de Kalman ?
 \end{frame}
 
 
 \section{Conclusion}
+\begin{frame}
+\frametitle{Conclusion (ce qu'on a fait)}
+\begin{itemize}
+
+\item Comprendre et ``mathématiser'' le problème:
+\begin{itemize}
+\item Traduction du problème dans un langage mathématique grâce aux
+  précisions de l'encadrant.
+\item Développement d'un algorithme de recalage pour affiner l'intuition.
+\item Traduction des données physiques (vitesse, carte bathymétrique )
+  en conditions algorithmiques/mathématiques : couronne d'admissibilité,
+  choix d'une direction de fort gradient.
+\end{itemize}
+
+\item Proposition de deux algorithmes discrets testés sur les
+  cartes fournies :
+\begin{itemize}
+\item Stratégie gloutonne, locale et incrémentale, d'après les données
+  physiques (gradient, distance, vitesse).
+
+\item Stratégie globale basée sur un graphe décrivant
+  les relations entre des points d'intérêts de la carte. La
+  trajectoire de coût minimal est trouvée grâce à l'algorithme de Dijkstra.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion (ce qu'on voudrait faire)}
+\begin{itemize}
+  \item Modélisation continue (modèle intégral, contrôle d'équations
+    différentielles)
+  \item Modélisation probabiliste (calcul de lois)
+\end{itemize}
+\end{frame}
 
 \section{Bibliographie et ouvertures}
 \begin{frame}
-%Key-words : Coverage Path Planning (CPP), Boustrophedon, Slicing
-
-\begin{itemize}
-
 
 \frametitle{Quelques pistes bibliographiques}
 
-\item{Robotique} 
 \begin{itemize}
-\item \textit{Sensor-based coverage of un-
-known environments: Incremental construction of morse
-decompositions}, E. U. Acar \& H. Choset (2002)
-\item \textit{Exploiting critical points to reduce positioning error
-  for sensor-based navigation}, E. U. Acar \& H. Choset (2002)
-\item \textit{A Survey on Coverage Path Planning for Robotics},
-  E.Galceran \& M.Carreras (2013)
-\end{itemize}
 
-\item{Bathymétrie}
-\begin{itemize}
-\item  \textit{Terrain-Relative Navigation for Autonomous Underwater Vehicles}, D. di Massa, (1997)
+\item S.Barkby, S.B. Williams O.Pizarro, M.Y. Jakuba
+  (2006). Amélioration d'une carte existante lors de la
+  navigation. Contrôle avec une méthode de SLAM et un filtre de Rao.
 
-\item \textit{.Landmark Selection for Terrain Matching.},C.F. Olson (2000)
-(Modélisation par erreur gaussienne)
+\item D.Wettergreen (2008). Repositionnement sous l'eau. Découpe du
+  volume à l'aide d'un \textit{octree}, et filtre de Kalman.
 
-\item \textit{Concurrent mapping and
-localization and map matching on autonomous underwater vehicles}, R. N. Carpenter \& M. R. Medeiros (2001)
-\item \textit{Self Consistent Bathymetric Mapping from Robotic Vehicles in the Deep Ocean}, C.N. Roman (2005)
-\item \textit{Active Localization on the Ocean Floor with Multibeam Sonar N. Fairfield}, D.Wettergreen (2008)
-\item \textit{Using Genetic Algorithms to Optimize Bathymetric Sampling
-for Predictive Model Input}, D. Manian, J. M. Kaihatu \& E. M. Zechman (2012) (algorithme génétique)
+\item E.Galceran \& M.Carreras (2013) : article de review en CPP
+  (\textit{Coverage Path Planning}). Déterminer le chemin passant par
+  les points d'un volume (une aire) tout en évitant les obstacles
+  éventuels. Algorithme de \textit{slicing}. Applications en
+  bathymétrie.
 
-
-
-\item \textit{Coverage Path Planning with Real-time Replanning and
-  Surface Reconstruction for Inspection of Three-dimensional
-  Underwater Structures using Autonomous Underwater Vehicles},
-  E. Galceran, R. Campos N.Palomeras, D. Ribas, M. Carreras \&
-  P. Ridao (2014) : Séparation des régions à forts gradient. Les
-  régions de gradient fort sont traités par un algorithme de
-  \textit{slicing} tandis que les autres régions sont traités par
-  l'algorithme de Boutrosphedon.
-\end{itemize}
-
-\item Aéronautique : positionnement d'un satelitte sur une orbite (ex: point de Lagrange)
+\item E. Galceran, R. Campos N.Palomeras, D. Ribas, M. Carreras \&
+  P. Ridao (2014). Trajectoire pour la cartographie du
+  domaine. Séparation des régions selon le module du gradient. Régions
+  de gradient fort traitées par un algorithme de \textit{slicing},
+  autres régions traitées par l'algorithme de Boutrosphedon.
 \end{itemize}
 
 \end{frame}
-
-
 
 \end{document}
