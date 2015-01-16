@@ -5,6 +5,7 @@ import scipy.sparse
 import cost
 import plot_sets
 
+
 def select_vertices(im, n, thresh):
     """
     """
@@ -77,6 +78,7 @@ def build_edges_in_graphs(vertices, dmin, dmax, im, eps_v, eps_h):
         vals_sparse[2*i + 1] = c
     return scipy.sparse.csr_matrix((vals_sparse, (rows_sparse, cols_sparse)))
 
+
 def find_shortest_path(m, vertices):
     start = m.shape[0] - 2
     end = m.shape[0] - 1
@@ -111,7 +113,7 @@ def main(A=(10, 17), B=(91, 77), plots_dir='sd', filename="morne_rouge.asc",
     print "the optimal cost is ", c
 
     # plot it 
-    plot_sets.main(filename, w, h, N=len(path), gamma=path, eps_v=eps_v, eps_h=eps_h, figures_path='%s' % plots_dir)
+    plot_sets.main(filename, w, h, N=len(path), gamma=path, eps_v=eps_v, eps_h=eps_h, figures_path=plots_dir)
 
 
 def show_points(im, points):
