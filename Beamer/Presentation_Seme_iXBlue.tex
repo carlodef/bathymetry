@@ -503,13 +503,13 @@ Les constantes $r_{\rm min}$ et $r_{\rm max}$ prennent en compte la vitesse mini
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-
-\frametitle{Algorithme glouton}
-
-RESULTATS
-\end{frame}
+%
+%\begin{frame}
+%
+%\frametitle{Algorithme glouton}
+%
+%RESULTATS
+%\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dijkstra}
 \subsection{Résultats}
@@ -553,21 +553,21 @@ RESULTATS
 \end{frame}
 \begin{frame}[Résultats]
 \only<1>{\begin{tabular}{cc}
-\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_000.png} &
+\includegraphics[scale=0.25]{../data/anneaux/plot_A_10_17_B_91_77_iteration_000.png} &
 \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
-%cost=91&cost=\\
+Dijkstra 1&Glouton\\
 &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
-%&cost=26\\
+&Dijkstra 2\\
 \end{tabular}
 }
-%\only<2>{\begin{tabular}{cc}
-%\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_005.png} &
-%\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_005.png} \\
-%cost=91&cost=\\
-%&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_005.png} \\
-%&cost=26\\
-%\end{tabular}
-%}
+\only<2>{\begin{tabular}{cc}
+\includegraphics[scale=0.25]{../data/anneaux/plot_A_10_17_B_91_77_iteration_010.png} &
+\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_010.png} \\
+Dijkstra 1&Glouton\\
+&\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_010.png} \\
+&Dijkstra 2\\
+\end{tabular}
+}
 %\only<3>{\begin{tabular}{cc}
 %\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
 %\includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_010.png}\\
@@ -576,12 +576,12 @@ RESULTATS
 %&cost=26\\
 %\end{tabular}
 %}
-\only<2>{\begin{tabular}{cc}
-\includegraphics[scale=0.25]{../data/baseline/plot_A_10_17_B_91_77_iteration_008.png} &
+\only<3>{\begin{tabular}{cc}
+\includegraphics[scale=0.25]{../data/anneaux/plot_A_10_17_B_91_77_iteration_011.png} &
 \includegraphics[scale=0.25]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} \\
-%cost=91&cost=\\
+Dijkstra 1&Glouton\\
 &\includegraphics[scale=0.25]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
-%&cost=26\\
+&Dijkstra 2\\
 \end{tabular}
 }
 \end{frame}
