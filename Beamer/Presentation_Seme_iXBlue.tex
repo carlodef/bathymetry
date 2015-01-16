@@ -700,29 +700,34 @@ Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : tro
 
 
 
-\begin{frame}[Résultats]
-  \frametitle{Résultats}
-  \begin{figure}
-  \begin{center}
-  \begin{tikzpicture}
-     % \draw (0,0) rectangle (10,8);
-    \only<1> {
-      \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}};
-      \node at (2,4)
-      {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}};
-      \node at (2,1.5) {Glouton};
-      \node at (7.5,1.5) {Dijkstra};
-    }
-    \only<2> {
-      \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
-      \node at (2,4) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
-      \node at (2,1.5) {Glouton};
-      \node at (7.5,1.5) {Dijkstra};
-    }
-\end{tikzpicture}
-  \end{center}
-  \end{figure}
-\end{frame}
+% \begin{frame}[Résultats]
+%   \frametitle{Résultats}
+%   \begin{figure}
+%   \begin{center}
+%   \begin{tikzpicture}
+%      % \draw (0,0) rectangle (10,8);
+%     \only<1> {
+%       \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png}};
+%       \node at (2,4)
+%       {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png}};
+%       \node at (2,1.5) {Glouton};
+%       \node at (7.5,1.5) {Dijkstra};
+%     }
+%     \only<2> {
+%       \node at (7.3,4) {\includegraphics[scale=0.3]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png}};
+%       \node at (2,4) {\includegraphics[scale=0.3]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png}};
+%       \node at (2,1.5) {Glouton};
+%       \node at (7.5,1.5) {Dijkstra};
+%     }
+% \end{tikzpicture}
+%   \end{center}
+%   \end{figure}
+% \end{frame}
+
+
+
+
+
 %\only<2>{
 %  \begin{center}
 %  \begin{tikzpicture}
@@ -742,6 +747,50 @@ Croissance en $ N^2(r_{\rm max} - r_{\rm min})^2$ du coût de l'algorithme : tro
 
 
 
+
+
+
+% \begin{frame}[Résultats]
+%   \frametitle{Résultats}
+% \only<1>{\begin{tabular}{cc}
+% \includegraphics[scale=0.22]{../data/anneaux/plot_A_10_17_B_91_77_iteration_000.png} &
+% \includegraphics[scale=0.22]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} \\
+% Dijkstra 1&Glouton\\
+% &\includegraphics[scale=0.22]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
+% &Dijkstra 2\\
+% \end{tabular}
+% }
+% \only<2>{\begin{tabular}{cc}
+% \includegraphics[scale=0.22]{../data/anneaux/plot_A_10_17_B_91_77_iteration_011.png} &
+% \includegraphics[scale=0.22]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} \\
+% Dijkstra 1&Glouton\\
+% &\includegraphics[scale=0.22]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
+% &Dijkstra 2\\
+% \end{tabular}
+% }
+% \end{frame}
+
+
+
+\begin{frame}[Résultats]
+  \frametitle{Résultats}
+\only<1>{\begin{tabular}{cc}
+\includegraphics[scale=0.22]{../data/greedy/plot_A_10_17_B_91_77_iteration_000.png} &
+\includegraphics[scale=0.22]{../data/anneaux/plot_A_10_17_B_91_77_iteration_000.png} \\
+Glouton&Dijkstra 1\\
+&\includegraphics[scale=0.22]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_000.png} \\
+&Dijkstra 2\\
+\end{tabular}
+}
+\only<2>{\begin{tabular}{cc}
+\includegraphics[scale=0.22]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} &
+\includegraphics[scale=0.22]{../data/anneaux/plot_A_10_17_B_91_77_iteration_011.png} \\
+Glouton&Dijkstra 1\\
+&\includegraphics[scale=0.22]{../data/None_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
+&Dijkstra 2\\
+\end{tabular}
+}
+\end{frame}
 
 
 
