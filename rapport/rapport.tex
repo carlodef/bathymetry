@@ -30,7 +30,107 @@
 \section{Recalage}
 \section{Optimisation de trajectoire}
 \section{Pistes continues}
+\paragraph{Modèle jouet}
+  On cherche à aller sur des zones de grande pente:
+  \begin{align*}
+    c(\gamma) = -\int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
+  \end{align*}
+
+  Mal posé (les suites minimisantes se localisent sur les maxima de
+  $\nabla h$) : régularisation~?
+  
+\begin{align*}
+  c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
+  h(\gamma(t))|^{2} dt
+\end{align*}
+
+Bien posé~? Minimiseurs~? Comment prendre en compte l'heuristique que
+$\gamma$ doit alterner les directions de $\nabla h$ pour se localiser~?
+
+% \begin{align*}
+%   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
+%   h(\gamma(t)) \cdot \gamma'(t)| dt
+% \end{align*}
+
+\paragraph{Un modèle un peu plus complexe}
+Modèle effectif pour les incertitudes en $x$ et $y$ $\sigma_{x}$ et
+$\sigma_{y}$ :
+\begin{align*}
+  c(\gamma) &= \sigma_{x}(1) + \sigma_{y}(1), \text{ où}\\
+  \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
+  \dot \sigma_{y} &= a - b \sigma_{y} (\partial_{y} h(\gamma(t)))^{2}.
+\end{align*}
+Amortissement exponentiel vers un point d'équilibre $\sigma_{x} \sim
+1/(\partial_{y} h(\gamma(t)))^{2}$. Sous la forme générale d'un
+contrôle optimal. Problème : modèle non isotrope (trajectoires
+diagonales~?)
+
+Généralisation : représenter l'incertitude par une matrice SDP $A$. Si
+on pose $G = \nabla h \nabla h^{T}$,
+\begin{align*}
+  \dot A = a A - b \sqrt G A \sqrt G.
+\end{align*}
+On modifie les incertitudes dans la direction $\nabla h$, on n'y
+touche pas dans $\nabla h^{\perp}$. Problème : $A$ ne reste
+pas forcément SDP. Y a-t-il une bonne généralisation~?
+
 \section{Pistes probabilistes}
+  \paragraph{Modélisation des incertitudes}
+\begin{itemize}
+\item Sources d'incertitude : précision de l'accéléromètre, erreurs
+  d'intégration (fréquence finie), erreur numérique (stockage en
+  virgule flottante)
+\item Dérive de l'estimation de position
+\item Modélisation délicate
+\item Si on fait une erreur initiale sur l'accélération, dérive en
+  $t^{2}$
+\item Si on fait une erreur initiale sur la vitesse, dérive en
+  $t$
+\item Compensation des erreurs~? Marche aléatoire, dérive en $\sqrt t$
+ ~? $t^{3/2}$~? $t^{5/2}$~?
+\item Non trivial en pratique
+\end{itemize}
+\paragraph{Modélisation probabiliste}
+  \begin{itemize}
+  \item Une approche par intervalles néglige la compensation des erreurs
+    et est trop pessimiste. Modèle probabiliste~?
+  \item Soit $(x_{0}, x_{1} \dots, x_{N})$ le chemin suivi par le
+    sous-marin, supposé exact.
+  \item Soit $X_{n}$ la position estimée du sous-marin. Loi de
+    $X_{n+1}$~?
+  \item Sans bathymétrie, on met à jour la position avec le vecteur
+    vitesse $v_{n} = x_{n+1} - x_{n}$, entaché (pour simplifier) d'une erreur aléatoire
+    $\varepsilon_{v} \sim N(0, \sigma_{v})$
+  \item La bathymétrie nous donne $h(X_{n+1}) = h(x_{n+1}) +
+    \varepsilon_{h}$, avec une erreur $\varepsilon_{h} \sim N(0, \sigma_{h})$
+  \end{itemize}
+
+  \begin{center}
+  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon_{v} \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + \varepsilon_{h})$}}
+  \end{center}
+  \begin{center}
+  \boxed{\mbox{$X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon_{v} \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) +  \varepsilon_{h})$}}
+  \end{center}
+
+  En notant formellement $P(X=x)$ pour la densité de $X$ en $x$,
+  \begin{align*}
+    P(X_{n+1} = x) &= P(X_{n} + v_{n} + \varepsilon_{v} = x \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + 
+                     \varepsilon_{h})\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon_{v} = x \cap
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + \varepsilon_{h})\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon_{v} = x) \; P(h(x) = h(x_{n+1}) + \varepsilon_{h}),
+  \end{align*}
+  où $N$ est choisi pour normaliser $X_{n+1}$.
+
+  On calcule $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (facile si
+  $\varepsilon_{h}$ est gaussienne), on calcule $P(X_{n} + v_{n} +
+  \varepsilon_{v} = x)$ (translation et convolution), on multiplie et on
+  normalise. En théorie bien plus précis que l'approche par boites,
+  mais quel traitement des incertitudes de vitesse~? Lien avec les
+  filtres de Kalman~?
 \section{Conclusion}
 \section{Bibliographie}
 \end{document}
