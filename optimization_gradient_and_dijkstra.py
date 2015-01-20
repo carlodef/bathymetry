@@ -5,6 +5,7 @@ import scipy.sparse
 import cost
 import plot_sets
 
+
 def select_vertices(im, n, thresh):
     """
     """
@@ -77,6 +78,7 @@ def build_edges_in_graphs(vertices, dmin, dmax, im, eps_v, eps_h):
         vals_sparse[2*i + 1] = c
     return scipy.sparse.csr_matrix((vals_sparse, (rows_sparse, cols_sparse)))
 
+
 def find_shortest_path(m, vertices):
     start = m.shape[0] - 2
     end = m.shape[0] - 1
@@ -105,21 +107,13 @@ def main(A=(10, 17), B=(91, 77), plots_dir='sd', filename="morne_rouge.asc",
     vertices.append(A)
     vertices.append(B)
     graph = build_edges_in_graphs(vertices, rmin, rmax, depth_map, eps_v, eps_h)
-    path1 = find_shortest_path(graph, vertices)  
-    c1, J_record1 = cost.cost(depth_map, path1, eps_v, eps_h)
-    print "the optimal path is ", path1
-    print "the optimal cost is ", c1
+    path = find_shortest_path(graph, vertices)  
+    c, J_record = cost.cost(depth_map, path, eps_v, eps_h)
+    print "the optimal path is ", path
+    print "the optimal cost is ", c
 
-    # compute the straight path with the same number of control points
-    #path2 = cost.prepare_gamma(np.array(A), np.array(B), len(path1))
-    path2 = cost.prepare_gamma(np.array(A), np.array(B), 6)
-    c2, J_record2 = cost.cost(depth_map, path2, eps_v, eps_h)
-    print "the baseline path is ", path2
-    print "the baseline cost is ", c2
-
-    # plot them 
-    plot_sets.main(filename, w, h, N=len(path1), gamma=path1, eps_v=eps_v, eps_h=eps_h, figures_path='%s_dijkstra' % plots_dir)
-    plot_sets.main(filename, w, h, N=len(path2), gamma=path2, eps_v=eps_v, eps_h=eps_h, figures_path='%s_baseline' % plots_dir)
+    # plot it 
+    plot_sets.main(filename, w, h, N=len(path), gamma=path, eps_v=eps_v, eps_h=eps_h, figures_path=plots_dir)
 
 
 def show_points(im, points):
