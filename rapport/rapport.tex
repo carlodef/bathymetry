@@ -17,6 +17,32 @@
 \usepackage{amsmath,amsfonts,amssymb}
 % \usepackage{overpic,boxedminipage}
 \usepackage{hyperref}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\cotan}{cotan}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Gram}{Gram}
+\DeclareMathOperator{\diag}{diag}
+\newcommand{\lp}{\left(}
+  \newcommand{\rp}{\right)}
+\usepackage{blkarray}
+\usepackage{multirow}
+\usepackage{framed,fancybox}
+\usepackage{tikz}
+% \usepackage{algorithm2e}
+% \usepackage{algorithmic}
+\usepackage{float}
+\usepackage{framed}
+% \usepackage{ulem}
+\usetikzlibrary{shapes,arrows}
+
+\newcommand{\lela}{\left \langle}
+  \newcommand{\rira}{\right \rangle}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newtheorem{remarque}{Remarque}
+
 \title{iXBlue}
 \author{}
 \date{}
@@ -29,6 +55,7 @@
 \section{Introduction}
 \section{Recalage}
 \section{Optimisation de trajectoire}
+\input{francois.tex}
 \section{Pistes continues}
 \paragraph{Modèle jouet}
   On cherche à aller sur des zones de grande pente:

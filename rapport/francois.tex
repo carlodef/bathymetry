@@ -1,0 +1,104 @@
+\subsection{Deuxième algorithme de Dijkstra}
+\subsubsection{Sélection de points}
+\begin{figure}[hbtp]
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\draw[gray] (0,0) grid[xstep=0.125,ystep=0.125] (1,1);
+\draw (0,0) grid (8,8);
+\draw[->,>=latex] (-0.35,0.3) -- (0.2,0.3);
+\draw node[left] at (-0.25,0.3) {$C$};
+\end{tikzpicture}
+\end{center}
+\caption{Partitionnement de la carte de la bathymétrie}
+\end{figure}
+
+On propose un algorithme qui permet de sélectionner une partie des points de la carte qu'on considère intéressants. Réduire le nombre de noeuds du graphe est important car cela permet de réduire le coût de calcul de l'algorithme de Dijkstra. L'idée est que le recalage est a priori plus efficace lorsque la variation de la bathymétrie est importante autour du point où l'on effectue la mesure. Cet algorithme se décompose en quatre étapes
+\begin{enumerate}
+\item On effectue un partitionnement de la carte de bathymétrie.
+\item On choisit un seuil $r\in (0,1)$.
+\item Dans chaque sous partie $C$ , on sélectionne l'ensemble des points $P$ tels que $\|\nabla h(P)\|\geq \|\nabla h\|_{\mathit{L}^\infty(C)}(1-r)$.
+\item On rajoute les points de départ et d'arrivée s'ils n'ont pas été sélection dans l'étape 3.
+\end{enumerate} 
+\begin{remarque}
+Dans le cas où la bathymétrie est constante dans chacune des sous parties, l'algorithme sélectionne tous les points de la carte.
+\end{remarque}
+\begin{remarque}
+Suivant le partitionnement de la carte et la valeur du seuil $r$, il n'est a priori pas garanti que le graphe puisse relier le point de départ et le point d'arrivée. Il faut rajouter des conditions sur la manière de partitionner et/ou le seuil qui seront à déterminer.
+\end{remarque}
+
+\subsubsection{Définition du coût}
+Soient $P$ un noeud du graphe et $Q\in E_P$, on définit le coût associé à l'arète qui relie les deux points par
+\begin{align*}
+c(P,Q)=c(\{P,Q\}) \text{ pour tout }Q\in E_P.
+\end{align*}
+\subsection{Résultats}
+Cette section présente les résultats des trois méthodes d'optimisation pour différents types de bathymétrie.
+
+Le coût (le long de la trajectoire) de la trajectoire obtenue par l'algorithme glouton est plus grand que ceux obtenues avec les algorithmes de Dijkstra dans les différents cas considérés. L'approche globale de l'algorithme de Dijkstra est plus performante que la stratégie locale de l'algorithme glouton sur ce problème.
+
+\subsubsection{Bathymétrie uniforme}
+On considère la bathymétrie
+\begin{align*}
+h(x,y)=h_0.
+\end{align*}
+Cette carte de bathymétrie correspond au cas où le recalage ne nous donnerai pas d'information pour réduire la zone d'incertitude. Les résultats sont présentés dans la table \ref{tab_const}. 
+
+\begin{table}
+\begin{tabular}{cc}
+\includegraphics[scale=0.42]{../data/greedy_const/plot_A_10_17_B_91_77_iteration_010.png} &
+\includegraphics[scale=0.42]{../data/anneaux_const/plot_A_10_17_B_91_77_iteration_009.png} \\
+Glouton, coût = 1749&Dijkstra 1, coût = 1329\\
+&\includegraphics[scale=0.42]{../data/gradient_dijkstra_const/plot_A_10_17_B_91_77_iteration_009.png} \\
+&Dijkstra 2, coût = 1329\\
+\end{tabular}
+\caption{Trajectoires, incertitudes à l'instant final et coût le long de la trajectoire}
+\label{tab_const}
+\end{table}
+\subsubsection{Bathymétrie plane}
+On considère la bathymétrie
+\begin{align*}
+h(x,y)=h_0 + \alpha y.
+\end{align*}
+ Les résultats sont présentés dans la table \ref{tab_plane}.
+\begin{table}
+\begin{tabular}{cc}
+\includegraphics[scale=0.42]{../data/greedy_plane_2/plot_A_10_17_B_91_77_iteration_010.png} &
+\includegraphics[scale=0.42]{../data/anneaux_plane_2/plot_A_10_17_B_91_77_iteration_011.png} \\
+Glouton, coût = 120 &Dijkstra 1, coût = 69 \\
+&\includegraphics[scale=0.42]{../data/gradient_dijkstra_plane_2/plot_A_10_17_B_91_77_iteration_009.png} \\
+&Dijkstra 2, coût = 99\\
+\end{tabular}
+\caption{Trajectoires, incertitudes à l'instant final, et coût le long de la trajectoire}
+\label{tab_plane}
+\end{table}
+\subsubsection{Bathymétrie avec symétrie sphérique}
+On considère la bathymétrie
+\begin{align*}
+h(x,y)=h_0-\alpha (x^2+y^2).
+\end{align*}
+ Les résultats sont présentés dans la table \ref{tab_cone}.
+\begin{table}
+\begin{tabular}{cc}
+\includegraphics[scale=0.42]{../data/greedy_cone_2/plot_A_10_17_B_91_77_iteration_010.png} &
+\includegraphics[scale=0.42]{../data/anneaux_cone_2/plot_A_10_17_B_91_77_iteration_009.png} \\
+Glouton, coût = 178&Dijkstra 1, coût = 143\\
+&\includegraphics[scale=0.42]{../data/gradient_dijkstra_cone_2/plot_A_10_17_B_91_77_iteration_013.png} \\
+&Dijkstra 2, coût = 129\\
+\end{tabular}
+\caption{Trajectoires, incertitudes à l'instant final et coût le long de la trajectoire}
+\label{tab_cone}
+\end{table}
+\subsubsection{Bathymétrie de la morne rouge}
+On considère la bathymétrie de la morne rouge. Les résultats sont présentés dans la table \ref{tab_morne}.
+\begin{table}
+\begin{tabular}{cc}
+\includegraphics[scale=0.42]{../data/greedy/plot_A_10_17_B_91_77_iteration_015.png} &
+\includegraphics[scale=0.42]{../data/anneaux/plot_A_10_17_B_91_77_iteration_011.png} \\
+Glouton, coût = 147&Dijkstra 1, coût = 69\\
+&\includegraphics[scale=0.42]{../data/gradient_dijkstra/plot_A_10_17_B_91_77_iteration_015.png} \\
+&Dijkstra 2, coût = 97\\
+\end{tabular}
+\caption{Trajectoires et incertitudes à l'instant final et coût le long de la trajectoire}
+\label{tab_morne}
+\end{table}
+
