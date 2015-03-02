@@ -1,0 +1,67 @@
+% !TEX root = rapport.tex
+
+%% Ecrit par David le 2 Mars 2015
+
+Ce rapport résume les idées trouvées lors de la Semaine d'\'Etude Maths-Entreprises (SEME) qui a eu lieu du 12 au 16 janvier 2015 sur le problème proposé par iXBlue. Le problème initiale a été exposé de la manière suivante.\\
+\textbf{\'Enoncé du problème proposé par iXBlue :} Un sous-marin sous l'eau ne peut pas connaitre sa position par GPS. Il doit donc déduire sa position à l'aide d'autres instruments de mesure, dont :
+\begin{itemize}
+	\item un accéléromètre qui lui donne son accélération au cours du temps $\vec{a}(t)$
+	\item un appareil qui lui permet de mesurer la hauteur du fond marin (par rapport au niveau d'eau par exemple) au point où il se trouve.
+\end{itemize}
+On suppose de plus que le sous-marin possède dans sa mémoire interne une carte des fonds-marins (une fonction $H : \R^2 \to \R$ qui à un point de la surface $P = (x,y)$ associe la profondeur de l'eau en dessous de ce point $H(P)$). \\
+Grâce à ces données, le sous-marin peut déduire sa position grâce à un algorithme dit \textit{de recalage} (cf Section \ref{sec:recalage}). On suppose maintenant que le sous-marin muni de son algorithme de recalage veut aller d'un point $A$ à un point $B$. Quelle est la meilleure trajectoire qui minimise l'incertitude en position au point final $B$ ? \\
+
+Avant de commenter cette problématique, faisons quelques remarques. Le problème est deux-dimensionnelle, dans le sens où on peut toujours supposer que le sous-marin est à hauteur constante, et que les points $A$ et $B$ sont à cette hauteur. Ainsi, la trajectoire du sous-marin peut-être paramétrée par une fonction continue $\gamma : [0, T] \to \R^2$, où $\gamma(t)$ est la position du sous-marin au temps $t$. On a évidemment $\gamma(0) = A \in \R^2$, et $\gamma(T) = B \in \R^2$. Par ailleurs, afin de simplifier le problème, on supposera dans la suite que le sous-marin mesure sa vitesse $\vec{v}(t)$ et non son accélération (cela sera utile dans la suite pour avoir une croissance des erreurs en position en $O(t)$ et non en $O(t^2)$).\\
+
+La problématique telle que précédemment formulée peut s'interpréter de multiples manières différentes. Il faut en particulier définir quelle est la notion d'incertitude. On supposera dans la suite que les appareils de mesure du sous-marin ne sont pas parfaits, et que l'incertitude vient uniquement de ces erreurs de mesure. Plus précisément, nous avons transformé le problème en un jeu à deux joueurs, dont un utilisateur externe et un sous-marin parfait muni d'un algorithme de recalage.\\
+
+\textbf{Reformulation du problème en jeu à deux joueurs :}\\
+\textbf{\'Etape 1} : L'utilisateur externe connait $A$ et $B$ et la carte des fonds marins, et il choisit un chemin $\gamma_0 : [0, T] \mapsto \R^2$ avec $\gamma_0(0) = A$ et $\gamma_0(T) = B$.\\
+\textbf{\'Etape 2} : Le sous-marin connait $A$ et la carte des sous-marins. Il ne connait ni $\gamma_0$, ni $B$. Il va suivre \textbf{parfaitement} la trajectoire $\gamma_0$ et mesurer
+\begin{itemize}
+	\item sa vitesse (bruitée) ${\vec{\widetilde{v}}}(t) = \nabla \gamma(t) + \vec{e_v}(t)$, où $\vec{e_v}(t)$ est l'erreur en vitesse au temps $t$.
+	\item la hauteur d'eau (bruitée) $\widetilde h(t) = h(\gamma(t)) + e_h(t)$, où $e_h(t)$ est l'erreur en hauteur d'eau au temps $t$.
+\end{itemize}
+Il estime ensuite avec son algorithme de recalage où il est à la fin (il estime la position de $B$).\\
+
+Le but est alors pour l'utilisateur de trouver la meilleure trajectoire $\gamma_0$ telle que l'estimation soit la plus exacte possible. Notez que dans ce modèle, le sous-marin n'est pas soumis à la dérive, et suit exactement la trajectoire $\gamma_0$ imposée par l'utilisateur. Ce modèle peut paraitre simpliste, mais il permet déjà de mettre en avant les outils importants pour la résolution du problème. \\
+
+
+Le point clé dans ce nouveau problème est que l'erreur vient uniquement des mesures (respectivement $\vec{e_v}(t)$ et $e_h(t)$). On supposera dans la suite que $\| \vec{e_v} \|_{L^\infty} \le \epsilon_v$ et $\| e_h \|_{L_\infty} = \epsilon_h$. Dans ce cas, pour une trajectoire donnée $\gamma_0 \in C^0([0,T], \R^2)$, il est naturel d'associer l'ensemble des trajectoires admissibles du sous-marin qui suit $\gamma_0$, à savoir
+\[
+	\mathcal{A}(\gamma_0) := \left\{ \gamma \in C^0([0,T],\R^2), \ \gamma(0) = A, \ \left\| \nabla \gamma (t) - \nabla \gamma_0(t) \right\|_{L^\infty} \le \epsilon_v, \ \left\| H(\gamma(t)) -  H(\gamma_0(t)) \right\| < \epsilon_h \right\}.
+\]
+Notez que la première condition traduit le fait que sous-marin connait sa point de départ $A$, que la seconde traduit le fait que son erreur en vitesse n'est pas plus grand que $\epsilon_v$, et que son erreur en hauteur d'eau n'est pas plus grand que $\epsilon_h$. Autrement dit, toute trajectoire de $\mathcal{A}(\gamma_0)$ est une trajectoire que le sous-marin peut penser prendre. On calcule ensuite l'ensemble des points finaux admissibles, à savoir
+\[
+	J(\gamma_0, T) := \left\{ \gamma(T), \quad \gamma \in \mathcal{A}(\gamma_0) \right\}.
+\]
+Avec ces notations, notre définition de l'incertitude est le volume de $J(\gamma_0, T)$, et le problème précédent peut s'écrire aussi
+\[
+	\textrm{Trouver} \quad \textrm{arginf} \left\{ | J(\gamma_0, T) |, \quad \gamma_0 \in C^0([0,T], \R^2), \ \gamma_0(0) = A, \ \gamma_0(T) = B \right\}.
+\]
+En pratique, la trajectoire $\gamma_0$ sera choisie avec des contraintes supplémentaires. On supposera par exemple que la vitesse du sous-marin est comprise entre $v_{\textrm min}$ et $v_{\textrm max}$, de sorte que $v_{\textrm min} \le | \nabla \gamma_0(t) | \le v_{\textrm max}$.  On supposera aussi que le temps $T$ est libre (autrement dit, la minimisation se fera aussi sur $T$). \\
+
+
+
+
+
+
+
+Ce rapport est organisé comme suit. On commence par décrire un algorithme qui permet d'estimer l'incertitude (algorithme de recalage). Dans un second temps, nous donnons plusieurs solutions au problème sous forme discrète (qui correspond à des solutions ingénieries souhaitées par iXBlue), puis nous listons des pistes pour la résolution de problème sous forme continue, avec des approches déterministes et probabilistes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
