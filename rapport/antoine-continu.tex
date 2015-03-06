@@ -1,0 +1,73 @@
+\paragraph{Modèle jouet}
+Les modèles précédents sont discrets par nature. Il est nécessaire de
+se poser la question d'une modélisation continue (en espace et en
+temps), soit qu'on espère que ces modèles sont les modèles limites des
+précédents quand les échelles d'espace et de temps sont petites, soit
+réciproquement pour obtenir de nouvelles idées d'algorithmes basés sur
+une modélisation continue.
+
+Dans cette partie, on suppose que la bathymétrie $h(x,y)$ est continue
+et suffisamment régulière. L'inconnue est le chemin $\gamma : [0,1]
+\to \R^{2}$, également supposé régulier.
+
+Une première idée est de maximiser la pente parcourue, avec une
+fonctionelle de type
+  \begin{align*}
+    c(\gamma) = -\int_{t=0}^{1} |\nabla h(\gamma(t))|^{2}  dt
+  \end{align*}
+
+  Ce problème est très mal posé: l'infimum n'est pas atteint, et les
+  suites minimisantes se localisent sur les maximas de $\nabla h$, ce
+  qui implique une perte de régularité de $\gamma$. Il
+  est donc naturel de considérer une régularisation de ce problème
+  pour éviter ce type de comportement pathologique, en pénalisant les
+  $\gamma$ trop irréguliers :
+\begin{align*}
+  c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
+  h(\gamma(t))|^{2} dt
+\end{align*}
+
+Ce modèle nous semble être bien posé. Son étude mathématique et
+numérique pourrait être intéressante, mais nous n'avons pas eu le
+temps de la considérer. Cependant, il ne prend pas en compte
+l'intuition (supportée par les simulations) que $\gamma$ doit alterner
+les directions de $\nabla h$ pour localiser le sous-marin. Ce type
+d'information nécessite une prise en compte de l'historique de
+$\gamma$, et donc une fonction de coût non-locale, dont l'analyse est
+plus compliquée.
+% \begin{align*}
+%   c(\gamma) =  \int_{t=0}^{1} a |\gamma'(t)|^{2} - b |\nabla
+%   h(\gamma(t)) \cdot \gamma'(t)| dt
+% \end{align*}
+
+\paragraph{Un modèle un peu plus complexe}
+Une autre possibilité est de modéliser l'évolution des incertitudes au
+long de la trajectoire. Par exemple, en modélisant séparément les
+incertitudes en $x$ et en $y$, on pourrait écrire
+\begin{align*}
+  c(\gamma) &= \sigma_{x}(1) + \sigma_{y}(1), \text{ où}\\
+  \dot \sigma_{x} &= a - b \sigma_{x} (\partial_{x} h(\gamma(t)))^{2}\\
+  \dot \sigma_{y} &= a - b \sigma_{y} (\partial_{y} h(\gamma(t)))^{2}.
+\end{align*}
+
+Ce modèle présente un amortissement exponentiel de $\sigma_{x}$ vers
+un point d'équilibre
+$\sigma_{x} \sim 1/(\partial_{x} h(\gamma(t)))^{2}$. Il est sous la
+forme générale d'un contrôle optimal, et pourrait donc être traité par
+ces méthodes (dont nous ne sommes pas spécialistes).
+
+Un défaut de cette modélisation est que le modèle n'est pas isotrope
+(il ne traite pas de la même façon les trajectoires dans des
+directions différentes). Une généralisation possible pourrait être de
+représenter l'incertitude par une matrice SDP $A$, dont les directions
+et valeurs propres représenteraient une ellipse d'incertitude. Si on
+pose $G = \nabla h \nabla h^{T}$, on peut considérer le modèle
+\begin{align*}
+  \dot A = a A - b \sqrt G A \sqrt G,
+\end{align*}
+analogue du précédent, mais traitant de la même façon toutes les
+directions. On réduit ici les incertitudes dans la direction
+$\nabla h$, et on ne les modifie pas dans la direction
+$\nabla h^{\perp}$. Ce modèle est toutefois incohérent car $A$ ne
+reste pas forcément SDP. Nous ne savons pas si il y a une ``bonne''
+généralisation isotrope du modèle précédent.

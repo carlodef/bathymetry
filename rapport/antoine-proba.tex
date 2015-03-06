@@ -1,0 +1,65 @@
+\paragraph{Modélisation des incertitudes}
+Dans toute l'étude précédente, on a pris pour postulat que les
+incertitudes croissaient linéairement, sans trop se préoccuper des
+mécanismes précis de cette croissance. D'où provient-elle, et comment
+la modéliser ? Nous n'avons pas assez d'informations pour pouvoir
+prétendre répondre à cette question, mais nous voyons plusieurs
+sources d'erreur possibles : la précision de l'accéléromètre et des
+gyroscopes, les erreurs d'intégration liées à la fréquence finie, et
+les erreurs numériques en virgule flottante. Chacune de ces sources a
+un comportement différent sur la dérive : une erreur initiale sur
+l'accélération se traduit par une dérive en $t^{2}$, une erreur
+initiale sur la vitesse se traduit par une dérive en $t$. Finalement,
+dans le cas d'erreurs aléatoires se compensant, d'autres types
+d'erreur, en $\sqrt t$, $t^{3/2}$ ou $t^{5/2}$ peuvent s'ajouter. La
+prise en compte précise de ces croissances est importante pour bien
+comprendre les incertitudes, le recalage, et les trajectoires
+optimales.
+\paragraph{Modélisation probabiliste}
+Dans le cas d'erreurs aléatoires pouvant se compenser, la modélisation
+précédente est trop pessimiste. On fait dans cette partie l'hypothèse
+simplificatrice non-physique que les incertitudes proviennent d'une
+mesure directe de vitesse entachée d'une erreur gaussienne
+$N(0, \sigma_{v})$.
+
+Supposons que le sous-marin suive la trajectoire $(x_{0}, x_{1} \dots,
+x_{N})$, et notons $X_{n}$ la variable aléatoire représentant la
+position estimée du sous-marin. Étant donnée la loi de $X_{n}$,
+peut-on calculer la loi de $X_{n+1}$ ?
+
+Sans recalage bathymétrique, on mettrait à jour la position
+$X_{n + 1} = X_{n} + (x_{n+1} - x_{n}) + \varepsilon_{v}$, où
+$\varepsilon_{v} \sim N(0, \sigma_{v})$ est une variable aléatoire
+indépendante de $n$. Avec le recalage bathymétrique, on mesure
+$h(X_{n+1}) = h(x_{n+1}) + \varepsilon_{h}$, avec une erreur
+$\varepsilon_{h} \sim N(0, \sigma_{h})$. La loi de $X_{n+1}$ est donc 
+
+  \begin{align*}
+    X_{n+1} \sim L(X_{n} + v_{n} + \varepsilon_{v} \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + \varepsilon_{h})
+  \end{align*}
+
+  Si on note formellement $P(X=x)$ pour la densité de $X$ en $x$,
+  \begin{align*}
+    P(X_{n+1} = x) &= P(X_{n} + v_{n} + \varepsilon_{v} = x \;\Big|\;
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + 
+                     \varepsilon_{h})\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon_{v} = x \cap
+    h(X_{n} + v_{n} + \varepsilon_{v}) = h(x_{n+1}) + \varepsilon_{h})\\
+    &= \frac 1 N P(X_{n} + v_{n} + \varepsilon_{v} = x) \; P(h(x) = h(x_{n+1}) + \varepsilon_{h}),
+  \end{align*}
+  où $N$ est choisi pour normaliser $X_{n+1}$.
+
+  On peut donc calculer $P(h(x) = h(x_{n+1}) + \varepsilon_{h})$ (ce
+  qui peut se faire facilement numériquement, et explicitement si on
+  suppose $\varepsilon_{h}$ petit), puis calculer
+  $P(X_{n} + v_{n} + \varepsilon_{v} = x)$ (par translation et
+  convolution), multiplier et normaliser, ce qui nous donne la loi de
+  $X_{n+1}$ en fonction de celle de $X_{n}$.
+
+  Cette approche, uniquement intéressante si les incertitudes sont
+  bien modélisées par des déviations aléatoires indépendantes, est
+  moins pessimistes que l'approche par boites, et permet des
+  intervalles de confiance plus resserrés. Enfin, ce type d'approche
+  est peut-être lié à des approches par filtre de Kalman, mais ces
+  liens dépassent nos compétences et le cadre de notre étude.
